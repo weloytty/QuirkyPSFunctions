@@ -76,8 +76,8 @@ FormatTaskName "-------- {0} --------"
 #Main tasks
 
 Task default -depends PreBuild
-Task Full -depends TestProperties, PreBuild, Deploy, Test
-Task CleanBuild -depends TestProperties, Clean, PreBuild, Deploy, Test
+Task Full -depends TestProperties, PreBuild, Build, Test
+Task CleanBuild -depends TestProperties, Clean, PreBuild, Build, Test
 
 
 Task Clean -depends TestProperties -Description "Cleans out the destination module folder" {
@@ -113,7 +113,7 @@ $buildFolders = get-childitem Source|Where-Object {$_.PSIsContainer}
 foreach($folder in $buildFolders)
 {
   Write-Verbose "Folder $folder"
-  $psmFile = Join-Path "$($folde.FullName)" "$($folder.Name).psm1"
+  $psmFile = Join-Path "$($folder.FullName)\Output\$($folder.Name)" "Quirky$($folder.Name).psm1"
   Write-Verbose "Creating file $psmFile"
 
 Write-Verbose "Running Get-ChildItem $($folder.FullName)|Get-Content|Set-Content $psmFile"
@@ -186,7 +186,7 @@ Task -Name Deploy -depends PreBuild -Description "Deploys the files" {
 
     Write-Host "Loading $m_ModuleName"
 
-    $modulePath = Join-Path "$($Env:ProgramFiles)\WindowsPowerShell\Modules)" "\Quirky"
+    $modulePath = Join-Path "$($Env:ProgramFiles)\WindowsPowerShell\Modules" "Quirky"
 
 
 
