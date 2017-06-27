@@ -99,27 +99,27 @@ Task Clean -depends TestProperties -Description "Cleans out the destination modu
             Assert (-not (Test-Path $($deleteFolder.FullName) -PathType Container)) -failureMessage "$m_DestinationPath not deleted"
         }
 
-    } else {
+    }
+    else {
         Write-Verbose "$m_destinationPath not available"
     }
     Write-Host "Task Clean Succeeded"
 
 }
 
-Task -Name Build -depends TestProperties -Description "Builds PSM1 files from PS1"
+Task -Name OldBuild -depends TestProperties -Description "Builds PSM1 files from PS1"
 {
 
-$buildFolders = get-childitem Source|Where-Object {$_.PSIsContainer}
-foreach($folder in $buildFolders)
-{
-  Write-Verbose "Folder $folder"
-  $psmFile = Join-Path "$($folder.FullName)\Output\$($folder.Name)" "Quirky$($folder.Name).psm1"
-  Write-Verbose "Creating file $psmFile"
+    $buildFolders = get-childitem Source|Where-Object {$_.PSIsContainer}
+    foreach ($folder in $buildFolders) {
+        Write-Verbose "Folder $folder"
+        $psmFile = Join-Path "$($folder.FullName)\Output\$($folder.Name)" "Quirky$($folder.Name).psm1"
+        Write-Verbose "Creating file $psmFile"
 
-Write-Verbose "Running Get-ChildItem $($folder.FullName)|Get-Content|Set-Content $psmFile"
-#Get-ChildItem $folder|Get-Content|Set-Content "$psmFile"
+        Write-Verbose "Running Get-ChildItem $($folder.FullName)|Get-Content|Set-Content $psmFile"
+        #Get-ChildItem $folder|Get-Content|Set-Content "$psmFile"
 
-}
+    }
 
 
 
@@ -158,7 +158,7 @@ Task -Name Test -depends TestProperties -Description "Runs Pester Test" {
 
 }
 
-Task -Name Deploy -depends PreBuild -Description "Deploys the files" {
+Task -Name BuildDeploy -depends PreBuild -Description "Deploys the files" {
 
     $psdFile = Join-Path $m_sourcePath "$m_ModuleName.psd1"
     Write-Host "$PSDFile"
@@ -222,6 +222,19 @@ Task -Name Deploy -depends PreBuild -Description "Deploys the files" {
 
     Assert ($(Test-ModuleManifest -Path $psdFile -ErrorAction SilentlyContinue; $?)) -failureMessage "$psdFile does not validate"
 
+
+    $buildFolders = get-childitem Source|Where-Object {$_.PSIsContainer}
+    foreach ($folder in $buildFolders) {
+        Write-Verbose "Folder $folder"
+        $psmFile = Join-Path "$($folder.FullName)\Output\$($folder.Name)" "Quirky$($folder.Name).psm1"
+        Write-Verbose "Creating file $psmFile"
+
+        Write-Verbose "Running Get-ChildItem $($folder.FullName)|Get-Content|Set-Content $psmFile"
+        #Get-ChildItem $folder|Get-Content|Set-Content "$psmFile"
+
+    }
+
+
     foreach ($fileName in $m_fileList) {
 
         $source = Join-Path $m_sourcePath $fileName
@@ -255,7 +268,8 @@ Task -Name Deploy -depends PreBuild -Description "Deploys the files" {
             Write-Verbose $Source
             Write-Verbose $Destination
             Copy-Item -Path "$source" -Destination "$destination" -Force
-        } else { Write-Verbose "Skipping $fileName.  MD5 match" }
+        }
+        else { Write-Verbose "Skipping $fileName.  MD5 match" }
 
     }
     $destinationPSD = Join-Path $finalDestinationFolder "$m_ModuleName.psd1"
