@@ -1,4 +1,3 @@
-
   [CmdletBinding()]
   param([string]$Name = $(throw "VM Name Required."),
 	[string]$ResourceGroupName = $(throw "ResourceGroup required."),
