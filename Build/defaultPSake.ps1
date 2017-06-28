@@ -25,6 +25,8 @@ param()
 #                 I gave it that spiffy name
 #
 
+Set-StrictMode -Version Latest  
+
 Include ".\buildFunctions.ps1"
 
 Properties {
@@ -42,7 +44,7 @@ Properties {
     $m_outputPath = Join-Path $(Split-Path $m_buildParent -Parent) "Output"
     $m_Tests = Join-Path $(Split-Path $m_buildParent -Parent) "Tests"
 
-    $m_version = "1.1.0.0"
+    $script:m_ModuleVersion = "1.1.0.0"
    
 
     $m_PersonalFunctions = "PersonalFunctions"
@@ -65,9 +67,9 @@ FormatTaskName "-------- {0} --------"
 #Main tasks
 
 Task default -depends TestProperties
-Task Full -depends TestProperties, BuildDeploy, Test
-Task FullNoTest -depends TestProperties, BuildDeploy
-Task CleanBuild -depends TestProperties, Clean, BuildDeploy, Test
+Task Full -depends TestProperties, BuildModule, DeployModule, Test
+Task FullNoTest -depends TestProperties, BuildModule, DeployModule
+Task CleanBuild -depends TestProperties, Clean, BuildModule, DeployModule, Test
 
 
 Task Clean -depends TestProperties -Description "Cleans out the destination module folder" {
@@ -131,47 +133,65 @@ Task -Name Test -depends TestProperties -Description "Runs Pester Test" {
 
 }
 
-Task -Name BuildDeploy -depends TestProperties -Description "Deploys the files" {
+
+Task -Name DeployModule -depends TestProperties -Description "Deploys the files" {
+    $psdPath = $(Join-Path $m_outputPath "$script:m_moduleVersion") 
+    $psdFile = $(Join-path $psdPath "\Quirky.psd1") 
+    
+    Write-Output "Deploy $m_outputPath"
+    Write-output "Version $m_Moduleversion"
+
+    $modPath = $(Join-Path "$PROFILEROOT" "Modules\Quirky")
+    $versionPath = $(Join-Path "$modPath" "$script:m_moduleVersion")
+    if (Test-Path -Path $versionPath) {Remove-Item $versionPath -Recurse -force }
+    Write-Output "Copying $psdPath to $(Join-Path "$PROFILEROOT" "Modules\Quirky")"
+    Copy-Item $psdPath -Destination $(Join-Path "$PROFILEROOT" "Modules\Quirky") -Recurse
+
+
+}
+
+
+Task -Name BuildModule -depends TestProperties -Description "Deploys the files" {
 
     $psdFile = Join-Path $m_sourcePath "$m_ModuleName.psd1"
     $psmFile = Join-Path $m_sourcePath "$m_ModuleName.psm1"
     Write-Host "PSD: $PSDFile"
     Write-Host "PSM: $PSMFile"
 
-    $moduleVersion = $m_Version.ToString()
+    $moduleVersion = $script:m_ModuleVersion.ToString()
 
     Write-Host "Starting Build"
 
     Write-Host "PSD File: $psdFile"
     Write-Host "Module  : $m_ModuleName"
-    $currentVersion = New-Object -TypeName System.Version -ArgumentList $m_Version
+    $currentVersion = New-Object -TypeName System.Version -ArgumentList $script:m_ModuleVersion
     $thisModule = (Get-Module -Name $m_ModuleName -ListAvailable -ErrorAction SilentlyContinue)
-    Write-Host "Build preset is version $($m_Version)"
+    Write-Host "Build preset is version $($script:m_ModuleVersion)"
     if ($thisModule -ne $null) {
         Write-Host "Using version from $m_ModuleName"
         $currentVersion = $thisModule.Version
 
     }
-    $moduleVersion = $currentVersion.ToString()
+    $script:m_ModuleVersion = $currentVersion.ToString()
     if (Test-Path $psdFile -PathType Leaf) {
         Write-Host "Updating version from $(Split-Path $psdFile -Parent)"
         $newCurrentVersion = Test-ModuleManifest -Path $psdFile|Select -ExpandProperty Version
-        $currentVersion = $newCurrentVersion
+        $script:m_ModuleVersion = $newCurrentVersion
     }
 
     Write-Host "Loading $m_ModuleName"
 
-    $modulePath = Join-Path "$($Env:ProgramFiles)\WindowsPowerShell\Modules" "Quirky"
+    $modulePath = Get-Module Quirky|Select-Object ModuleBase # Join-Path "$($Env:ProgramFiles)\WindowsPowerShell\Modules" "Quirky"
 
 
 
-    Write-Host "Current Version in manifest is $currentVersion"
-    $moduleVersion = $currentVersion.ToString()
+    Write-Host "Current Version in manifest is $script:m_ModuleVersion"
+
     if ($m_newBuild) {
 
         $newRevision = "$($currentVersion.Major).$($currentVersion.Minor).$($currentVersion.Build).$([int]$currentVersion.Revision +1)"
         $moduleVersion = $newRevision
-        $m_Version = $moduleVersion.ToString()
+        $script:m_ModuleVersion = $moduleVersion.ToString()
         Write-Host "New Revision for $m_ModuleName will be $moduleVersion"
         Write-Host "New build means delete everything"
         if ($thisModule -ne $null) {
@@ -192,16 +212,15 @@ Task -Name BuildDeploy -depends TestProperties -Description "Deploys the files" 
     Remove-Module $m_ModuleName -Force -ErrorAction SilentlyContinue
 
     if ($m_newBuild) {
-        Update-ModuleManifest -Path $psdFile -ModuleVersion $moduleVersion
+        Update-ModuleManifest -Path $psdFile -ModuleVersion $script:m_ModuleVersion
     }
     Write-Host "Updated $(Split-Path -Path $psdFile -Leaf) with new Revision"
 
-    $m_OutputPath = Join-Path $m_OutputPath $moduleVersion
+    $m_OutputPath = Join-Path $m_OutputPath $script:m_ModuleVersion
 
     Write-Verbose "Output Path: $m_outputPath"
 
-    if(Test-Path -Path $m_OutputPath -PathType Container)
-    {
+    if (Test-Path -Path $m_OutputPath -PathType Container) {
         Write-Verbose "$m_OutputPath exists, deleting it"
         Remove-Item $m_OutputPath -Recurse -Force
     }
@@ -236,7 +255,7 @@ Task -Name BuildDeploy -depends TestProperties -Description "Deploys the files" 
         Write-Verbose "Creating file $thisPsm"
 
         Write-Verbose "Processing Folder $($folder.FullName)"
-        $fileList = Get-ChildItem $($folder.FullName) -Exclude Filter*,Alias*
+        $fileList = Get-ChildItem $($folder.FullName) -Exclude Filter*, Alias*
 
         foreach ($functionFile in $fileList) {
             Write-Verbose "Processing $($functionFile.Fullname)"
@@ -247,13 +266,13 @@ Task -Name BuildDeploy -depends TestProperties -Description "Deploys the files" 
         }
 
         $FilterList = Get-ChildItem $($folder.FullName) |Where-Object {$_.Name -match 'Filter'}
-        foreach($filterFile in $filterList){
+        foreach ($filterFile in $filterList) {
             Write-Verbose "Processing Filter $filterFile.Fullname)"
             Add-Content $thisPSM -Value $(Get-Content $($filterFile.Fullname)) 
         }
 
         $aliasList = Get-ChildItem $($folder.FullName) |Where-Object {$_.Name -match 'Alias'}
-        foreach($aliasFile in $aliasList){
+        foreach ($aliasFile in $aliasList) {
             Write-Verbose "Processing Alias $aliasFile.Fullname)"
             Add-Content $thisPSM -Value $(Get-Content $($aliasFile.Fullname)) 
         }
@@ -288,8 +307,8 @@ Task -Name TestProperties -Description "Tests to make sure properies are set" {
     Write-Verbose "Testing for Code Path $m_sourcePath"
     Assert ($m_sourcePath -ne $null) -failureMessage "Can't find Code Path Variable"
 
-    Write-Verbose "Testing Version $m_Version"
-    Assert ($m_Version -ne $null) -failureMessage "Can't find Version Variable"
+    Write-Verbose "Testing Version $m_ModuleVersion"
+    Assert ($m_ModuleVersion -ne $null) -failureMessage "Can't find Version Variable"
 
     Write-Verbose "Testing Destination Path: $m_outputPath"
     Assert ($m_outputPath -ne $null) -failureMessage "Can't find Destination Path Variable"
