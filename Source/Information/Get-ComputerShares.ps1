@@ -1,5 +1,4 @@
-
-  [CmdletBinding()]
+[CmdletBinding()]
   param(
     [Parameter(ValueFromPipeline = $true,ValueFromPipelineByPropertyName = $true)]
     [string[]]$computername = $env:COMPUTERNAME,
@@ -14,4 +13,3 @@
       Get-WmiObject win32_share -ComputerName $s | Format-Table Name,Path -AutoSize
     }
   }
-

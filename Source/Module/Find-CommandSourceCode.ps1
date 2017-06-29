@@ -52,7 +52,7 @@
 
 		  Write-Verbose "Source to $($command.Name) appears to be $($sourceFile)"
 
-		  $thisModule = Get-Mogdule $module
+		  $thisModule = Get-Module $module
 		  $thisModule = Get-HighestModuleVersion($thisModule)
 
 		  if ($thisModule.NestedModules.Count -gt 0)

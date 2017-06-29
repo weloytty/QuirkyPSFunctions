@@ -18,8 +18,8 @@ add the module name you want to suppress and set its value to false e.g.:
 
     Import-Module PersonalFunctions -args @{ModulesToImport = @{DirectoryServices = $false}}
 
-To have complete control over which PersonalFunctions modules load as well as
-normal options, copy the PersonalFunctions.Preferences.ps1 file to your home dir. Edit this
+To have complete control over which  modules load as well as
+normal options, copy the Quirky.Preferences.ps1 file to your home dir. Edit this
 file and modify the settings as desired.  Then pass the path to this file as
 an argument to Import-Module as shown below:
 
