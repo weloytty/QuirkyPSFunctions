@@ -45,7 +45,6 @@
 	DSC = $true
 	Azure = $true
 	Module = $true
-	O365 = $true
   }
 
   EditorCommand = 'code.cmd'
