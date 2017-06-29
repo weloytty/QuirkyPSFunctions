@@ -32,7 +32,7 @@ Include ".\buildFunctions.ps1"
 Properties {
 
     $m_moduleName = "Quirky"
-    $m_newBuild = $false
+    $m_newBuild = $true
     $m_buildPath = $psake.build_script_file
 
     $m_sourceFolder = "Source"
@@ -44,7 +44,7 @@ Properties {
     $m_outputPath = Join-Path $(Split-Path $m_buildParent -Parent) "Output"
     $m_Tests = Join-Path $(Split-Path $m_buildParent -Parent) "Tests"
 
-    $script:m_ModuleVersion = "1.1.0.0"
+    $script:m_ModuleVersion = "1.2.0.0"
    
 
     $m_PersonalFunctions = "PersonalFunctions"
@@ -144,8 +144,8 @@ Task -Name DeployModule -depends TestProperties -Description "Deploys the files"
     $modPath = $(Join-Path "$PROFILEROOT" "Modules\Quirky")
     $versionPath = $(Join-Path "$modPath" "$script:m_moduleVersion")
     if (Test-Path -Path $versionPath) {Remove-Item $versionPath -Recurse -force }
-    Write-Output "Copying $psdPath to $(Join-Path "$PROFILEROOT" "Modules\Quirky")"
-    Copy-Item $psdPath -Destination $(Join-Path "$PROFILEROOT" "Modules\Quirky") -Recurse
+    Write-Output "Copying $psdPath to $versionPath"
+    Copy-Item $psdPath -Destination $versionPath -Recurse
 
 
 }
@@ -155,6 +155,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
 
     $psdFile = Join-Path $m_sourcePath "$m_ModuleName.psd1"
     $psmFile = Join-Path $m_sourcePath "$m_ModuleName.psm1"
+    $prefsFile = Join-Path $m_sourcePath "$m_ModuleName.Preferences.ps1"
     Write-Host "PSD: $PSDFile"
     Write-Host "PSM: $PSMFile"
 
@@ -226,7 +227,10 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
     }
     
 
-    if (-not (Test-Path $m_outputPath )) {New-Item -Path $m_outputPath -ItemType Container -Force|Out-Null}
+    if (-not (Test-Path $m_outputPath )) {
+        Write-Verbose "Creating $m_outputPath"
+        New-Item -Path $m_outputPath -ItemType Container -Force|Out-Null
+    }
 
 
     Assert ($(Test-ModuleManifest -Path $psdFile -ErrorAction SilentlyContinue; $?)) -failureMessage "$psdFile does not validate"
@@ -237,6 +241,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
 
     Copy-Item $psdFile -Destination $m_OutputPath
     Copy-Item $psmFile -Destination $m_OutputPath
+    Copy-Item $prefsFile -Destination $m_OutputPath
 
 
     $buildFolders = get-childitem $m_sourcePath|Where-Object {$_.PSIsContainer}
