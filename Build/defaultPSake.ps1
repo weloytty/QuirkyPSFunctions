@@ -91,7 +91,8 @@ Task Clean -depends TestProperties -Description "Cleans out the destination modu
             Assert (-not (Test-Path $($deleteFolder.FullName) -PathType Container)) -failureMessage "$m_outputPath not deleted"
         }
 
-    } else {
+    }
+    else {
         Write-Verbose "$m_outputPath not available"
     }
     Write-Host "Task Clean Succeeded"

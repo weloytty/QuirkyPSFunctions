@@ -34,22 +34,22 @@
 #
 
 @{
-  ShowModuleLoadInfo = $true
-  ShowStartupDebugSpew = $true
+    ShowModuleLoadInfo   = $true
+    ShowStartupDebugSpew = $true
 
-  ModulesToImport = @{
-	Information = $true
-	FileSystem = $true
-	Utility = $true
-	Users = $true
-	DSC = $true
-	Azure = $true
-	Module = $true
-	O365 = $true
-  }
+    ModulesToImport      = @{
+        Information = $true
+        FileSystem  = $true
+        Utility     = $true
+        Users       = $true
+        DSC         = $true
+        Azure       = $true
+        Module      = $true
+        O365        = $true
+    }
 
-  EditorCommand = 'code.cmd'
-  AzureUserName = 'put your azure username here (thisuser@example.com)'
-  AzureSubscription = 'Put the name of your azure subscription here'
-  SysinternalsDir = "$env:LOCALAPPDATA\Programs"
+    EditorCommand        = 'code.cmd'
+    AzureUserName        = 'put your azure username here (thisuser@example.com)'
+    AzureSubscription    = 'Put the name of your azure subscription here'
+    SysinternalsDir      = "$env:LOCALAPPDATA\Programs"
 }
