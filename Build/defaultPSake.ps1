@@ -190,7 +190,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
 
     if ($m_newBuild) {
 
-        $newRevision = "$($currentVersion.Major).$($currentVersion.Minor).$($currentVersion.Build).$([int]$currentVersion.Revision +1)"
+        $newRevision = "$($m_ModuleVersion.Major).$($m_ModuleVersion.Minor).$($m_ModuleVersion.Build).$([int]$m_ModuleVersion.Revision +1)"
         $moduleVersion = $newRevision
         $script:m_ModuleVersion = $moduleVersion.ToString()
         Write-Host "New Revision for $m_ModuleName will be $moduleVersion"
