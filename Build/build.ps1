@@ -6,9 +6,9 @@
 
 [CmdletBinding()]
 param(
-  [Parameter(Position = 0)]
-  [string[]]$TaskList,
-  [string]$ScriptPath
+    [Parameter(Position = 0)]
+    [string[]]$TaskList,
+    [string]$ScriptPath
 )
 
 Set-StrictMode -Version Latest
@@ -29,24 +29,24 @@ Set-Location $thisPath
 Write-Verbose "Looking for Pester"
 $pester = Get-Module -Name Pester
 if (-not ($pester)) {
-  Write-Verbose "Pester not available, trying again"
-  $pester = Get-Module -ListAvailable -Name Pester
+    Write-Verbose "Pester not available, trying again"
+    $pester = Get-Module -ListAvailable -Name Pester
 }
 if (-not ($pester)) {
-  Write-Verbose "Getting Pester from OneGet"
-  Find-Module -Name Pester | Install-Module -Verbose
+    Write-Verbose "Getting Pester from OneGet"
+    Find-Module -Name Pester | Install-Module -Verbose
 }
 
 Write-Verbose "Looking for PSake"
 $psake = Get-Module -Name PSake
 if (-not ($psake)) {
-  Write-Verbose "PSake not available, trying again"
-  $psake = Get-Module -ListAvailable -Name Psake
+    Write-Verbose "PSake not available, trying again"
+    $psake = Get-Module -ListAvailable -Name Psake
 }
 
 if (-not ($psake)) {
-  Write-Verbose "Getting Psake from OneGet"
-  Find-Module -Name PSake | Install-Module -Verbose
+    Write-Verbose "Getting Psake from OneGet"
+    Find-Module -Name PSake | Install-Module -Verbose
 }
 
 Write-Verbose "Loadking Modules"

@@ -8,3 +8,4 @@ Set-Alias killps Stop-OtherPowershell
 Set-Alias gurl Get-ExpandedURL
 Set-Alias fev -Value Format-Environment
 Set-Alias ppx -Value Format-QXml
+Set-Alias shares Get-ComputerShares
