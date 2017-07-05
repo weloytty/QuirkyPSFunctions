@@ -37,7 +37,6 @@
     ShowModuleLoadInfo   = $true
     ShowStartupDebugSpew = $true
 
-<<<<<<< HEAD
   ModulesToImport = @{
 	Information = $true
 	FileSystem = $true
@@ -47,18 +46,6 @@
 	Azure = $true
 	Module = $true
   }
-=======
-    ModulesToImport      = @{
-        Information = $true
-        FileSystem  = $true
-        Utility     = $true
-        Users       = $true
-        DSC         = $true
-        Azure       = $true
-        Module      = $true
-        O365        = $true
-    }
->>>>>>> a4304aa4f1cb812b7da714d3e5491a3039ddbb1b
 
     EditorCommand        = 'code.cmd'
     AzureUserName        = 'put your azure username here (thisuser@example.com)'
