@@ -296,7 +296,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
     Write-Verbose "ExportedFunctions.Count is $($ExportedFunctions.Count)"
     if($exportedFunctions.Count -gt 0)
     {
-        Write-Verbose "Updating $psdFile with exported functions"
+       # Write-Verbose "Updating $psdFile with exported functions"
  
         #Update-ModuleManifest -Path "$destinationPSD" -FunctionsToExport $exportedFunctions
     }
