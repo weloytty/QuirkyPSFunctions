@@ -246,6 +246,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
 
 
     $buildFolders = get-childitem $m_sourcePath|Where-Object {$_.PSIsContainer}
+    $exportedFunctions = @()
 
     foreach ($folder in $buildFolders) {
         Write-Verbose "Folder $folder"
@@ -264,6 +265,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
         $fileList = Get-ChildItem $($folder.FullName) -Exclude Filter*, Alias*
 
         foreach ($functionFile in $fileList) {
+            $exportedFunctions += "'$($functionFile.FullName)'"
             Write-Verbose "Processing $($functionFile.Fullname)"
             Add-Content  $thisPsm -Value "function $($functionFile.BaseName)(){" 
             Add-Content  $thisPsm -Value $(Get-Content $($functionFile.Fullname)) 
@@ -286,9 +288,19 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
         
     }
 
+
+
     $destinationPSD = Join-Path $m_OutputPath "$m_ModuleName.psd1"
     Write-Verbose "Running Test-MoudleManifest -Path $destinationPSD"
-    Assert ($(Test-ModuleManifest -Path "$destinationPSD" -ErrorAction SilentlyContinue; $?)) -failureMessage "$psdFile does not validate"
+    Assert ($(Test-ModuleManifest -Path "$destinationPSD" -ErrorAction SilentlyContinue; $?)) -failureMessage "$destinationPSD does not validate"
+    Write-Verbose "ExportedFunctions.Count is $($ExportedFunctions.Count)"
+    if($exportedFunctions.Count -gt 0)
+    {
+        Write-Verbose "Updating $psdFile with exported functions"
+ 
+        #Update-ModuleManifest -Path "$destinationPSD" -FunctionsToExport $exportedFunctions
+    }
+
 
     Write-Host "Finished Building $m_ModuleName"
 }
