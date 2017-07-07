@@ -1,9 +1,15 @@
+[CmdletBinding()]
+param([switch]$IncludeAzure)
 
-  param($IncludeAzure)
+begin {
+    Set-StrictMode -Version Latest
+}
 
-  if($IncludeAzure){
-	Get-Command *DSC*
-  }else{
-	Get-Command *DSC*|Where {-not ($_.Source -match 'Azure')}
-  }
+process {
+    if ($IncludeAzure) {
+        Get-Command *DSC*
+    } else {
+        Get-Command *DSC*|Where-Object {-not ($_.Source -match 'Azure')}
+    }
 
+}
