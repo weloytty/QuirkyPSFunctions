@@ -31,7 +31,7 @@ Describe "Unit Testing Quirky Base Module:" -Tags @( "runfirst") {
 
 
 
-        It "Knows be in a subdirectory matching its version" {
+        It "Knows to be in a subdirectory matching its version" {
             Assert ($QuirkyFolder -eq $VersionString) -failureMessage "Folder name $QuirkyFolder doesn't match version of module $VersionString"
         }
 
