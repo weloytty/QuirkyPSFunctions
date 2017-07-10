@@ -2,7 +2,7 @@
 [CmdletBinding()]
 param(
     [Parameter(ValueFromPipeline = $true, Position = 0, ValueFromPipelineByPropertyName = $true)]
-    [string[]]$ComputerName = '.',
+    [string[]]$ComputerName = "$($env:ComputerName)",
     [switch]$DisplayOnly,
     [switch]$Quiet)
 
@@ -62,6 +62,10 @@ begin {
             460798 {
                 $versionName = ".NET Framework 4.7"
             }
+            460805 {
+                $versionName = ".NET Framework 4.7"
+            }
+
             default {
                 $versionName = $clrVersion.Version
             }
@@ -77,6 +81,7 @@ begin {
         $returnValues.ComputerName = $Env:COMPUTERNAME
         $returnValues.Version = $clrVersion.Version
         $returnValues.VersionName = $versionName
+        $returnValues.KB = $release.Release
         $returnObject = New-Object psobject -Property $returnValues
 
         if ($using:DisplayOnly) {
@@ -91,11 +96,9 @@ process {
 
     foreach ($server in $ComputerName) {
         Write-Verbose "Processing $server"
-        if ($ComputerName -eq '.') {
-            Invoke-Command -ScriptBlock $ScriptToRun
-        } else {
-            Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun
-        }
+
+        Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun
+     
     }
 }
 
