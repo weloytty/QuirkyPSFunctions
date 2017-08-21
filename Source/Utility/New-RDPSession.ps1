@@ -10,22 +10,16 @@ param(
     [string]$RDPFile
 
 )
-
-process {
-    $hostName = ""
+begin {
+    $hostName = $ComputerName
     Write-Verbose "New RDP session to $ComputerName on port $Port"
-    switch ($Computername.ToUpper()) {
-        "PUNEDEV" { $hostName = "SGCI1CAM2001" }
-        "SHANGHAIDEV" { $hostName = "SGCI1CAM2002" }
-        "SHDEV" { $hostName = "SGCI1CAM2002" }
-        "HOME" { 
-            $hostName = "75.191.199.38"; 
-            $SkipTestConnection = $true 
-        }
-        "CLIP" { $hostName = $(Get-Clipboard) }
-        default { $hostName = $Computername }
+    if ($Computername.ToUpper() -eq "CLIP") {$hostName = $(Get-Clipboard)}
+    
+   
+    
+}
+process {
 
-    }
     if ($hostname -ne $ComputerName) {
         Write-Verbose "Converted $ComputerName to $hostName"
     }
@@ -63,10 +57,12 @@ process {
                 }
             }
             Write-Verbose "Testing connectivity to $hostname"
-            if (($SkipTestConnection -eq $false) -and (Test-Connection -ComputerName $hostname -Quiet) -eq $false) {
-                Write-Error "Can't verify host $hostname"
-                exit
+            if ((-not $SkipTestConnection ) `
+                    -and (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {
+                throw "Can't verify host $hostname"
+                
             }
+            
 
         } catch {
             Write-Output "Error validating hostname"
@@ -80,7 +76,7 @@ process {
     if ($fullRDPPath -ne '') {
         mstsc $fullRDPPath
     } else {
-        if ($SkipTestConnection -or (Test-Connection $hostname -Quiet -Count 1)) {
+        if ($SkipTestConnection -or (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {
             Write-Verbose "Invoking mstsc"
             $PortParameter = ":$Port"
             mstsc /v:$hostName$PortParameter
@@ -88,7 +84,7 @@ process {
   
     }
   
-
+    
 
 }
 
