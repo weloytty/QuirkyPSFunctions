@@ -57,38 +57,42 @@ process {
                 }
             }
             Write-Verbose "Testing connectivity to $hostname"
-            if ((-not $SkipTestConnection ) `
-                    -and (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {
-                throw "Can't verify host $hostname"
+            if(-not $SkipTestConnection ) {
+                    if ( -not (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {                
+                        throw "Can't verify host $hostname"
+                    }
+                }
+                    
                 
-            }
+                
+            
             
 
-        } catch {
-            Write-Output "Error validating hostname"
-            foreach ($s in $error.Message) {
-                Write-Verbose $s
+            } catch {
+                Write-Output "Error validating hostname"
+                foreach ($s in $error.Message) {
+                    Write-Verbose $s
+                }
+
             }
+        } else { Write-Verbose "Skipping Test-Connection for $hostname" }
 
-        }
-    } else { Write-Verbose "Skipping Test-Connection for $hostname" }
-
-    if ($fullRDPPath -ne '') {
-        mstsc $fullRDPPath
-    } else {
-        if ($SkipTestConnection -or (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {
-            Write-Verbose "Invoking mstsc"
-            $PortParameter = ":$Port"
-            mstsc /v:$hostName$PortParameter
-        }
+        if ($fullRDPPath -ne '') {
+            mstsc $fullRDPPath
+        } else {
+            if ($SkipTestConnection -or (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {
+                Write-Verbose "Invoking mstsc"
+                $PortParameter = ":$Port"
+                mstsc /v:$hostName$PortParameter
+            }
   
-    }
+        }
   
     
 
-}
+    }
 
-<#
+    <#
 .SYNOPSIS
     Opens a new RDP connection to a given IP Address
 .DESCRIPTION
