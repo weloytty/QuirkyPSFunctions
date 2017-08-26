@@ -11,14 +11,13 @@ param(
 
 )
 begin {
-    $hostName = $ComputerName
-    Write-Verbose "New RDP session to $ComputerName on port $Port"
-    if ($Computername.ToUpper() -eq "CLIP") {$hostName = $(Get-Clipboard)}
-    
-   
-    
+    Set-StrictMode -version Latest
+    if ($Computername.ToUpper() -eq "CLIP") { $hostName = $(Get-Clipboard) }
 }
 process {
+    $hostName = ""
+    Write-Verbose "New RDP session to $ComputerName on port $Port"
+    
 
     if ($hostname -ne $ComputerName) {
         Write-Verbose "Converted $ComputerName to $hostName"
@@ -57,42 +56,36 @@ process {
                 }
             }
             Write-Verbose "Testing connectivity to $hostname"
-            if(-not $SkipTestConnection ) {
-                    if ( -not (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {                
-                        throw "Can't verify host $hostname"
-                    }
-                }
-                    
-                
-                
-            
-            
-
-            } catch {
-                Write-Output "Error validating hostname"
-                foreach ($s in $error.Message) {
-                    Write-Verbose $s
-                }
-
+            if (($SkipTestConnection -eq $false) -and (Test-Connection -ComputerName $hostname -Quiet) -eq $false) {
+                Write-Error "Can't verify host $hostname"
+                exit
             }
-        } else { Write-Verbose "Skipping Test-Connection for $hostname" }
 
-        if ($fullRDPPath -ne '') {
-            mstsc $fullRDPPath
-        } else {
-            if ($SkipTestConnection -or (Test-Port -ComputerName $hostname -Port $Port -Quiet -Verbose:$VerbosePreference  )) {
-                Write-Verbose "Invoking mstsc"
-                $PortParameter = ":$Port"
-                mstsc /v:$hostName$PortParameter
+        } catch {
+            Write-Output "Error validating hostname"
+            foreach ($s in $error.Message) {
+                Write-Verbose $s
             }
-  
+
+        }
+    } else { Write-Verbose "Skipping Test-Connection for $hostname" }
+
+    if ($fullRDPPath -ne '') {
+        mstsc $fullRDPPath
+    } else {
+        if ($SkipTestConnection -or (Test-Connection $hostname -Quiet -Count 1)) {
+            Write-Verbose "Invoking mstsc"
+            $PortParameter = ":$Port"
+            mstsc /v:$hostName$PortParameter
         }
   
-    
-
     }
+  
 
-    <#
+
+}
+
+<#
 .SYNOPSIS
     Opens a new RDP connection to a given IP Address
 .DESCRIPTION
