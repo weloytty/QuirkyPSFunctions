@@ -9,3 +9,4 @@ Set-Alias gurl Get-ExpandedURL
 Set-Alias fev -Value Format-Environment
 Set-Alias ppx -Value Format-QXml
 Set-Alias shares Get-ComputerShares
+Set-Alias fi -Value Find-Items
