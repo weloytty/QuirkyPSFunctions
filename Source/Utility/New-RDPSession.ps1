@@ -12,10 +12,11 @@ param(
 )
 begin {
     Set-StrictMode -version Latest
+    $hostName = $ComputerName
     if ($Computername.ToUpper() -eq "CLIP") { $hostName = $(Get-Clipboard) }
 }
 process {
-    $hostName = ""
+    
     Write-Verbose "New RDP session to $ComputerName on port $Port"
     
 
