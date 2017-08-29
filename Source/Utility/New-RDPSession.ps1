@@ -57,9 +57,9 @@ process {
                 }
             }
             Write-Verbose "Testing connectivity to $hostname"
-            if (($SkipTestConnection -eq $false) -and (Test-Connection -ComputerName $hostname -Quiet) -eq $false) {
-                Write-Error "Can't verify host $hostname"
-                exit
+            if (($SkipTestConnection -eq $false) -and (Test-Port -ComputerName $hostname -Port $Port -Quiet) -eq $false) {
+                throw "Can't verify host $hostname"
+                
             }
 
         } catch {
@@ -74,7 +74,7 @@ process {
     if ($fullRDPPath -ne '') {
         mstsc $fullRDPPath
     } else {
-        if ($SkipTestConnection -or (Test-Connection $hostname -Quiet -Count 1)) {
+        if ($SkipTestConnection -or (Test-Port -Computername $hostname -Quiet -Port $Port)) {
             Write-Verbose "Invoking mstsc"
             $PortParameter = ":$Port"
             mstsc /v:$hostName$PortParameter
