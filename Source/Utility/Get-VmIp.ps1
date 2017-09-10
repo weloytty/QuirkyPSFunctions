@@ -13,7 +13,7 @@ begin {
 }
 
 process {
-    foreach ($vm in $VMName) {
+    foreach ($vm in $Name) {
         Get-VMNetworkAdapter -VMName $vm|Select-Object IpAddresses|Foreach-Object {$_.IpAddresses}
     }
 }
