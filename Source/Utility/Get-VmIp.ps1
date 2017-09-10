@@ -14,7 +14,7 @@ begin {
 
 process {
     foreach ($vm in $Name) {
-        Get-VMNetworkAdapter -VMName $vm|Select-Object IpAddresses|Foreach-Object {$_.IpAddresses}
+        Get-VMNetworkAdapter -VMName $vm|Select-Object IpAddresses|Foreach-Object {Write-Output $_.IpAddresses}
     }
 }
 
