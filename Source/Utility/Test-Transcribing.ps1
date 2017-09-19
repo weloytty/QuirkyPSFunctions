@@ -1,11 +1,8 @@
-
-$externalHost = $host.gettype().getproperty("ExternalHost",
-    [reflection.bindingflags]"NonPublic,Instance").getvalue($host, @())
+$externalHost = $host.gettype().getproperty("ExternalHost", [reflection.bindingflags]"NonPublic,Instance").getvalue($host, @())
 
 try {
-    $externalHost.gettype().getproperty("IsTranscribing",
-        [reflection.bindingflags]"NonPublic,Instance").getvalue($externalHost, @())
+    $externalHost.gettype().getproperty("IsTranscribing", [reflection.bindingflags]"NonPublic,Instance").getvalue($externalHost, @())
 } catch {
-			 write-warning "This host does not support transcription."
+    #you will also hit this if you're in VSCode's terminal
+    write-warning "This host does not support transcription."
 }
-
