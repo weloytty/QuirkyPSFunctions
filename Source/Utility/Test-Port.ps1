@@ -1,3 +1,4 @@
+[CmdletBinding()]
 Param(
     [parameter(ParameterSetName = 'ComputerName', Position = 0,Mandatory=$true)]
     [string]$ComputerName,
