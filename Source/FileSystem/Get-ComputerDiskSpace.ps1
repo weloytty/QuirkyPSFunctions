@@ -48,17 +48,17 @@ process {
             foreach ($results in $driveInfo) {
                 if ($null -eq $results.Size) {$results.Size = 0}
                 if ($null -eq $results.FreeSpace) {$results.FreeSpace = 0}
-$percentFree = 0
+                $percentFree = 0
 
 
                     
-                    if (  $results.Size -ne 0) {
-                        $percentFree = [int](100 - (((($results.Size) - ($results.FreeSpace)) / ($results.Size) * 100)))                        
-                    }
+                if (  $results.Size -ne 0) {
+                    $percentFree = [int](100 - (((($results.Size) - ($results.FreeSpace)) / ($results.Size) * 100)))                        
+                }
 
 
                 if (-not $DisplayOnly) {
-                    $thisValue = $(New-Object -Type PSObject -Property @{ ComputerName = $Computer; Disk = $($results.DeviceId); Size = $($results.Size); FreeSpace = $($results.FreeSpace);PercentFree = $percentFree })
+                    $thisValue = $(New-Object -Type PSObject -Property @{ ComputerName = $Computer; Disk = $($results.DeviceId); Size = $($results.Size); FreeSpace = $($results.FreeSpace); PercentFree = $percentFree })
                     $returnValues += $thisValue    
                 }
                 if (-not $Quiet) {
@@ -68,8 +68,6 @@ $percentFree = 0
                     if ($results.Size -gt 0 -or $IncludeZeros) {
 
                         $percentFreeDisplay = "% Free: $percentFree"
-                    
-
 
                         $outputStringFreeSpace = "Free: $($(Format-DiskSize -Size $results.FreeSpace).padRight(10))" 
                         $outputStringSize = "Size: $($(Format-DiskSize -Size $results.Size).padRight(10))"
