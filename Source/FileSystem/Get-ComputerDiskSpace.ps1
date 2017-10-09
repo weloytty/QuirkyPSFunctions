@@ -40,7 +40,7 @@ begin {
 process {
 
     foreach ($Computer in $ComputerName) {
-        if (-not $Quiet) {Write-Host "$Computer"}
+        Write-Verbose "Processing $Computer"
         
         $driveInfo = $(Get-WmiObject -ComputerName $Computer -Query $wmiQuery)
         if ($null -ne $driveInfo) {
@@ -66,13 +66,15 @@ process {
                     
 
                     if ($results.Size -gt 0 -or $IncludeZeros) {
-
-                        $percentFreeDisplay = "% Free: $percentFree"
-
+						$compDisplay = $Computer.PadRight(15)
+                        $foreColor = 'Green'
+                        if ($percentFree -lt 10) {$foreColor = 'Red'}
+                  
                         $outputStringFreeSpace = "Free: $($(Format-DiskSize -Size $results.FreeSpace).padRight(10))" 
                         $outputStringSize = "Size: $($(Format-DiskSize -Size $results.Size).padRight(10))"
                         $driveName = $($results.Name).padRight(10)
-                        Write-Host "$driveName$outputStringSize$outputStringFreeSpace$percentFreeDisplay"
+                        Write-Host "$compDisplay$driveName$outputStringSize$outputStringFreeSpace% Free: " -NoNewLine 
+                        Write-Host "$percentFree" -ForegroundColor $foreColor
                     }
                 }
             }
