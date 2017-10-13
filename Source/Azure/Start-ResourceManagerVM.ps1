@@ -69,8 +69,8 @@ process {
         }
 
 
-
-        $ipAddress = (Get-AzureRmPublicIpAddress -Name $vmname -ResourceGroupName $resourcegroup).IpAddress
+        $ipName = "$vmname-ip"
+        $ipAddress = (Get-AzureRmPublicIpAddress -Name $ipName -ResourceGroupName $resourcegroup).IpAddress
         Write-Verbose "Ip Address for VM is $ipAddress"
 
         if ($ConnectToResource) {
