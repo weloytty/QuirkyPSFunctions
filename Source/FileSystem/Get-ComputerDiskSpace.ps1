@@ -72,8 +72,8 @@ process {
                   
                         $outputStringFreeSpace = "Free: $($(Format-DiskSize -Size $results.FreeSpace).padRight(10))" 
                         $outputStringSize = "Size: $($(Format-DiskSize -Size $results.Size).padRight(10))"
-                        $driveName = $($results.Name).padRight(10)
-                        Write-Host "$compDisplay$driveName$outputStringSize$outputStringFreeSpace% Free: " -NoNewLine 
+                        $driveName = $($results.Name)
+                        Write-Host "$compDisplay$driveName $outputStringSize$outputStringFreeSpace% Free: " -NoNewLine 
                         Write-Host "$percentFree" -ForegroundColor $foreColor
                     }
                 }
