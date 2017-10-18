@@ -66,7 +66,7 @@ process {
                     
 
                     if ($results.Size -gt 0 -or $IncludeZeros) {
-						$compDisplay = $Computer.PadRight(15)
+						$compDisplay = "$($Computer.PadRight(15))    "
                         $foreColor = 'Green'
                         if ($percentFree -lt 10) {$foreColor = 'Red'}
                   
