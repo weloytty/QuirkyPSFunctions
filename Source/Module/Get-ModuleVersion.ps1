@@ -1,10 +1,11 @@
 [CmdletBinding()]
 param(
-    [Parameter(Position = 0, Mandatory = $true, ParameterSetName = 'Name')]
+    [Parameter(Position = 0, Mandatory = $true, ParameterSetName = 'Name',ValueFromPipeline=$true)]
     [string[]]$ModuleName,
-    [Parameter(ParameterSetName = 'Module', Position = 0, Mandatory = $true)]
+    [Parameter(ParameterSetName = 'Module', Position = 0, Mandatory = $true,ValueFromPipeline=$true)]
     [System.Management.Automation.PSModuleInfo[]]$Module,
     [switch]$All)
+    
 
 begin {
     $returnValue = @()
