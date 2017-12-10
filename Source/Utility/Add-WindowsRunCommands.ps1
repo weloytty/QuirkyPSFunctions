@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param()
+param([switch]$Force)
 
 process {
 
@@ -18,7 +18,10 @@ process {
             Remove-Alias -Name $Name -Force
             $existingAlias = $false
          }
-         if(-not $existingAlias){Set-Alias -Name $Name -Value $Path}else{Write-Output "Skipping existing alias $Name"}
+         Write-Verbose "Name: '$Name' Value: '$Path'"
+        if ($Path -ne $null -and $Path.Length -gt 1) {
+            if (-not $existingAlias) {Set-Alias -Name $Name -Value $Path}else {Write-Output "Skipping existing alias $Name"}
+        } else {Write-Verbose "Skipping $Name, blank value"}
         
 
        
