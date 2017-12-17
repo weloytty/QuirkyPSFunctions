@@ -7,6 +7,9 @@
         Enumerates Windows credentials in the Credential Manager and then extracts available
         information about each one. Passwords can be retrieved for "Generic" type credentials,
         but not for "Domain" type credentials.
+
+        Modified from https://github.com/peewpw/Invoke-WCMDump
+        
       .EXAMPLE
         PS>Import-Module .\Invoke-WCMDump.ps1
         PS>Invoke-WCMDump
