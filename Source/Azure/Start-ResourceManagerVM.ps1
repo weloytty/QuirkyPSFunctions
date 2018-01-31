@@ -14,6 +14,12 @@ begin {
     $inputPosition = -1
     $resourceGroup = ""
 
+
+    if ($PSVersionTable.PSVersion.Major -gt 5) {
+        Import-Module AzureRM.Netcore
+        Import-Module AzureRM.Profile.Netcore
+    }
+
     [System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
 
 }

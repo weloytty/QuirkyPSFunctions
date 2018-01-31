@@ -4,6 +4,13 @@ param([string]$Name = $(throw "VM Name Required."),
     [string]$AzureSubscription
 )
 
+
+
+if ($PSVersionTable.PSVersion.Major -gt 5) {
+    Import-Module AzureRM.Netcore
+    Import-Module AzureRM.Profile.Netcore
+}
+
 $vmname = $name
 $resourcegroup = $ResourceGroupName
 $vm = $null

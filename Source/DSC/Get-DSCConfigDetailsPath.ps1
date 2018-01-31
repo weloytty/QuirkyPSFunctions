@@ -67,7 +67,7 @@ process {
         $theseResults.ComputerName = $computer
         $theseResults.StatusInfo = @()
 
-        if (Test-Connection -ComputerName $Computer -Quiet -ErrorAction SilentlyContinue) {
+        if (Test-NetConnection -ComputerName $Computer -InformationLevel Quiet -ErrorAction SilentlyContinue) {
 
             $runFirst = $(Join-Path $MofRoot 'runfirst')
             if (Test-Path $(Join-Path $runFirst "$computer.mof")) {

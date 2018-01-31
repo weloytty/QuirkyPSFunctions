@@ -20,7 +20,7 @@
   {
     foreach ($computer in $computername)
     {
-      if (Test-Connection -ComputerName $computer -Quiet)
+      if (Test-NetConnection -ComputerName $computer -InformationLevel Quiet)
       {
         ([adsi]"WinNT://$computerName/$localGroupName,group").Add("WinNT://$UserDomain/$UserName")
       } else { Write-Output "Can't connect to computer $computerName" }

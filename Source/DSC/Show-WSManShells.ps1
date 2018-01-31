@@ -4,7 +4,7 @@
   $results = @()
   foreach ($computer in $ComputerName)
   {
-	if (Test-Connection -ComputerName $Computer -Quiet)
+	if (Test-NetConnection -ComputerName $Computer -InformationLevel Quiet)
 	{
 	  $shells = Get-WSManInstance -ConnectionUri "http:`/`/$($Computer):5985/wsman" shell -enum
 	  $results = $shells

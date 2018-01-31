@@ -29,14 +29,15 @@
       }
 
 
-      return $returnObject
+        $PSVersiontable
     }
   }
   process {
 
     foreach ($server in $ComputerName) {
-      Write-Verbose "Processing $server"
-      Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun -EnableNetworkAccess
+        Write-Verbose "Processing $server"
+      $retVal = $null
+      Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun -EnableNetworkAccess -OutVariable retVal
 
     }
   }

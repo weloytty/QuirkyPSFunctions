@@ -74,7 +74,7 @@ process {
             }
 
         }
-    } else { Write-Verbose "Skipping Test-Connection for $hostname" }
+    } else { Write-Verbose "Not testing for connectivity to $hostname" }
 
     if ($fullRDPPath -ne '') {
         mstsc $fullRDPPath
