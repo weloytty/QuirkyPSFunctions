@@ -18,5 +18,16 @@ Describe "Unit Testing Quirky Information:" {
                 $returnValue.PSVersion.ToString() | Should Be $($PSversionTable.PSVersion.ToString())
             }
         } #Context Quirky\Get-PowershellVersion {
+
+
+        Context Quirky\Show-Calendar {
+
+            $returnValue = $(Get-Command Quirky\Show-Calendar|select-object -expand Name )
+
+            It 'Can find Show-Calendar' {
+                $returnValue.Length | Should Be $true
+            }
+        } #Context Quirky\Get-PowershellVersion {
+
     } #InModuleScope Quirky{
 } #Describe "Unit Testing Quirky Information:" {
