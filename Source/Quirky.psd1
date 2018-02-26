@@ -112,7 +112,7 @@ CmdletsToExport = @()
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
 AliasesToExport = 'gcisize', 'gcidate', 'gcidirs', 'edc', 'slm', 'slf', 'slp', 'gms', 'gurl', 'home', 
                'shares', 'sdp', 'isadmin', 'gmf', 'md5', 'killps', 'check', 'fev', 'ppx', 'iesp', 
-               'ief', 'whereis', 'gmv'
+               'ief', 'whereis', 'gmv', 'cal'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()

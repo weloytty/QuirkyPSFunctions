@@ -8,6 +8,11 @@ Describe "Unit Testing Quirky Information:" {
             It "Should know what the 'shares' alias does" {
                 $returnValue | Should Be "Get-ComputerShares"
             }
+            $aliasValue = (Get-Alias cal -ErrorAction SilentlyContinue).Definition
+            It "Should know what the 'cal' Alias does" {
+                $aliasValue | Should Be "Show-Calendar"
+            }
+
         }
 
         Context Quirky\Get-PowershellVersion {
