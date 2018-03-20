@@ -101,7 +101,7 @@ FunctionsToExport = 'Add-QDomainUserToLocalGroup', 'Add-TrustedHost', 'Edit-Comm
                'Add-WindowsRunCommands', 'Get-ErrorInfo', 'Show-FolderDifference', 
                'Get-LockfileProcess', 'Get-SizeOnDisk', 'Import-VSVars', 
                'Get-ProcessOwner', 'Get-QueueDepth', 'Clear-Queue', 
-               'Get-MSIInformation', 'Show-Calendar', 'Check-HaveIBeenPwnd'
+               'Get-MSIInformation', 'Show-Calendar', 'Check-PwnedPassword'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
