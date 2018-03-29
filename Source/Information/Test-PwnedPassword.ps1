@@ -1,5 +1,6 @@
 [CmdletBinding()]
-param([string]$PwdToTest)
+param([string]$PwdToTest,
+[switch]$Quiet)
 
 begin {
     Set-StrictMode -version Latest
@@ -30,8 +31,8 @@ process {
         foreach ($s in $($results.Content -split "`r`n")) {
             $countofHash = $($s -split ":")[1]
             $stringToMatch = $($s -split ":")[0]
-            if ($stringToMatch -eq $remainder) {Write-Output "Password '$pwdToTest' has been used $countOfHash times."}
+            if ($stringToMatch -eq $remainder) {if (-not $Quiet) {Write-Host "Password '$pwdToTest' has been used $countOfHash times."}else {break;}}
         }
-    } else {Write-Output "No matches found"}
-
+    } else {if (-not $Quiet) {Write-Host "No matches found"}}
+if($Quiet){$countOfHash}
 }

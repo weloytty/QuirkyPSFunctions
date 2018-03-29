@@ -34,5 +34,18 @@ Describe "Unit Testing Quirky Information:" {
             }
         } #Context Quirky\Get-PowershellVersion {
 
+        Context Quirky\Test-PwnedPassword {
+            $returnValue = $(Get-Command Quirky\Test-PwnedPassword|Select-Object -expand Name)
+            It 'Can find Test-PwnedPassword' {
+                $returnValue.Length |Should Be $true
+            }
+
+            $returnNumber = $(Quirky\Test-PwnedPassword -Quiet -PwdToTest 'Booger')
+            It 'Knows how many times Booger has been used' {
+                $returnNumber|Should -BeGreaterOrEqual 1076 
+            }
+
+        }
+
     } #InModuleScope Quirky{
 } #Describe "Unit Testing Quirky Information:" {
