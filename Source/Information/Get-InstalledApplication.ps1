@@ -1,6 +1,7 @@
 
   [CmdletBinding()]
   param(
+    [Alias("FQDN")]
     [Parameter(ValueFromPipelineByPropertyName = $true,Position = 0)]
     [string[]]$ComputerName = $env:COMPUTERNAME,
     [string]$AppName,

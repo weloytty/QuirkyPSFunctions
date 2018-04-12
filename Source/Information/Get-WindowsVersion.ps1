@@ -1,6 +1,7 @@
 
 [CmdletBinding()]
 param(
+    [Alias("FQDN")]
     [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
     [string[]]$ComputerName,
     [switch]$DisplayOnly,

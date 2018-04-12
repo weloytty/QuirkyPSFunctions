@@ -1,5 +1,6 @@
 [CmdletBinding()]
   param(
+    [Alias("FQDN")]
     [Parameter(ValueFromPipeline = $true,ValueFromPipelineByPropertyName = $true)]
     [string[]]$computername = $env:COMPUTERNAME,
     [ValidateNotNull()]

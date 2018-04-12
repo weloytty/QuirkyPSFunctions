@@ -1,6 +1,8 @@
 
 	[CmdLetBinding()]
-	param ([string[]]$ComputerName = @("."))
+	param (
+    [Alias("FQDN")]
+		[string[]]$ComputerName = @("."))
 	$hklm = 2147483650
 	$regPath = "Software\Microsoft\Windows NT\CurrentVersion"
 	$regValue = "DigitalProductId"
