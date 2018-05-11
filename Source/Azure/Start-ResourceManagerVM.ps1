@@ -18,6 +18,7 @@ begin {
     if ($PSVersionTable.PSVersion.Major -gt 5) {
         Import-Module AzureRM.Netcore
         Import-Module AzureRM.Profile.Netcore
+        Import-Module AzureRM.Network.Netcore
     }
 
     [System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials

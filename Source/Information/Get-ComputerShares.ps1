@@ -11,6 +11,6 @@
     Write-Verbose "Processing $computername"
     foreach ($s in $computername) {
 
-      Get-WmiObject win32_share -ComputerName $s | Format-Table Name,Path -AutoSize
+      Get-CimInstance win32_share -ComputerName $s | Format-Table Name,Path -AutoSize
     }
   }

@@ -24,11 +24,11 @@
 
     foreach ($s in $computername) {
       $results = $null
-      $results = Get-WmiObject win32_operatingsystem -ComputerName $s -ErrorAction SilentlyContinue #| Select @{ LABEL = 'ComputerName   .'; Expression = { $s } },@{ LABEL = 'LastBootUpTime     .'; Expression = { $_.ConverttoDateTime($_.lastbootuptime) } }
+      $results = Get-CimInstance -ClassName win32_operatingsystem -ComputerName $s -ErrorAction SilentlyContinue #| Select @{ LABEL = 'ComputerName   .'; Expression = { $s } },@{ LABEL = 'LastBootUpTime     .'; Expression = { $_.ConverttoDateTime($_.lastbootuptime) } }
       $paddedName = $s.padRight(15)
       $bootedTime = "(server unavailable)"
       if ($results -ne $null) {
-        $bootedTime = $results.ConverttoDateTime($results.LastBootUpTime)
+        $bootedTime = $results.LastBootUpTime
       }
 
       if (-not $Quiet) {

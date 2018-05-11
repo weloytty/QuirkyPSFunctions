@@ -2,7 +2,7 @@
   [CmdletBinding()]
   param(
     [Alias("FQDN")]
-    [Parameter(ValueFromPipelineByPropertyName = $true,Position = 0)]
+    [Parameter(ValueFromPipeline=$true,ValueFromPipelineByPropertyName = $true,Position = 0)]
     [string[]]$ComputerName = $env:COMPUTERNAME,
     [string]$AppName,
     [string]$Publisher,
@@ -23,7 +23,7 @@
       $returnValues = @()
       $foundPackages = 0
 
-      if ((Get-WmiObject win32_operatingsystem).OSArchitecture -notlike '64-bit') {
+      if ((Get-CimInstance -ClassName win32_operatingsystem).OSArchitecture -notlike '64-bit') {
         $RegistryLocations = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*')
       }
       else {

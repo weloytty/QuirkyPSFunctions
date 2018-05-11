@@ -17,7 +17,7 @@
   process
   {
 
-
+#Get-FileHash should replace this nicely,
 	foreach ($file in $fileName)
 	{
 	  if (Test-Path $file -PathType Leaf)
