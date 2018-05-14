@@ -20,7 +20,7 @@ begin {
             Write-Verbose "Quiet and DisplayOnly were both set, no output will be produced"
         }
 
-        $a = Get-WmiObject Win32_OperatingSystem
+        $a = Get-CimInstance Win32_OperatingSystem
         $versionNumber = $a.Version
         $bitness = "32 bit"
         if ([intptr]::Size -eq 8) {

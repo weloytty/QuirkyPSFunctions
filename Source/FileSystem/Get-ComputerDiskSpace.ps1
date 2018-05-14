@@ -42,7 +42,7 @@ process {
     foreach ($Computer in $ComputerName) {
         Write-Verbose "Processing $Computer"
         
-        $driveInfo = $(Get-WmiObject -ComputerName $Computer -Query $wmiQuery)
+        $driveInfo = $(Get-CimInstance -ComputerName $Computer -Query $wmiQuery)
         if ($null -ne $driveInfo) {
             
             foreach ($results in $driveInfo) {

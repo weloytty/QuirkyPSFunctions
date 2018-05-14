@@ -53,7 +53,7 @@ function Create-WMIAce {
 } 
 
 
-if (Get-WmiObject -Class Win32_Share -Computername $ComputerName -filter "name='$name'") {
+if (Get-CimInstance -Class Win32_Share -Computername $ComputerName -filter "name='$name'") {
     Write-Output "Share $name already exists on $ComputerName"
 } else {
 

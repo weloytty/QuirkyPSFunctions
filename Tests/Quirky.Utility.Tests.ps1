@@ -57,7 +57,7 @@ Describe "Unit Testing Quirky Utilities:" {
     }
 
     Context "Quirky\Test-Win64" {
-      if ((Get-WmiObject win32_operatingsystem).OSArchitecture -notlike '64-bit') {
+      if ((Get-CimInstance win32_operatingsystem).OSArchitecture -notlike '64-bit') {
 
         It "Knows that it's not running on a 64 bit machine" {
           Quirky\Test-Win64 | Should Be $false
@@ -72,7 +72,7 @@ Describe "Unit Testing Quirky Utilities:" {
     }
 
     Context "Quirky\Test-Win32" {
-      if ((Get-WmiObject win32_operatingsystem).OSArchitecture -notlike '64-bit') {
+      if ((Get-CimInstance win32_operatingsystem).OSArchitecture -notlike '64-bit') {
         It "Knows that it's running on a 32 bit machine" {
           Quirky\Test-Win32 | Should Be $true
         }

@@ -12,7 +12,7 @@
 RootModule = 'Quirky.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2.0.118'
+ModuleVersion = '1.2.0.121'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -32,13 +32,13 @@ Copyright = '(c) 2015-2017 Bill Loytty All rights reserved.'
 # Description of the functionality provided by this module
 Description = 'Functions I use all the time (non employer specific)'
 
-# Minimum version of the Windows PowerShell engine required by this module
+# Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '3.0'
 
-# Name of the Windows PowerShell host required by this module
+# Name of the PowerShell host required by this module
 # PowerShellHostName = ''
 
-# Minimum version of the Windows PowerShell host required by this module
+# Minimum version of the PowerShell host required by this module
 # PowerShellHostVersion = ''
 
 # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
@@ -150,6 +150,12 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         # ReleaseNotes = ''
+
+        # Prerelease string of this module
+        # Prerelease = ''
+
+        # Flag to indicate whether the module requires explicit user acceptance for install/update/save
+        # RequireLicenseAcceptance = False
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
