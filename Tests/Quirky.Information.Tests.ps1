@@ -20,7 +20,12 @@ Describe "Unit Testing Quirky Information:" {
             $returnValue = Quirky\Get-PowershellVersion -ComputerName . -Quiet
 
             It 'Knows what version of powershell this computer has' {
-                $returnValue.PSVersion.ToString() | Should Be $($PSversionTable.PSVersion.ToString())
+                if ($PSVersionTable.PSVersion.Major -gt 5 -and  $returnValue.PSVersion.Major -eq 5) {
+                    $returnValue.PSVersion.Major|Should Be 5
+                } else {
+                    $returnValue.PSVersion.ToString() | Should Be $($PSversionTable.PSVersion.ToString())
+                }
+             
             }
         } #Context Quirky\Get-PowershellVersion {
 

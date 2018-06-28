@@ -18,7 +18,7 @@
     $SB = {
       $VerbosePreference = $using:VerbosePreference
 
-      $Quiet = $using:Quiet
+    $Quiet = $using:Quiet
 
       $returnValues = @()
       $foundPackages = 0
@@ -136,4 +136,3 @@
 	return $results
 
   }
-
