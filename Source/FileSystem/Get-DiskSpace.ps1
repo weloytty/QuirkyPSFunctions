@@ -74,7 +74,7 @@ process {
                 }#if($null -ne $results){
             }#foreach ($results in $driveInfo) {
         }
-        if (-not $Quiet) {Write-Host ""}
+
     }
 
 }
