@@ -60,13 +60,24 @@ begin {
             394748 {
                 $versionName = ".NET Framework 4.6.2 Preview"
             }
+            394802 {
+                $versionName = ".NET Framework 4.6.2"
+            }
+            394806 {
+                $versionName = ".NET Framework 4.6.2"
+            }
             460798 {
                 $versionName = ".NET Framework 4.7"
             }
             460805 {
                 $versionName = ".NET Framework 4.7"
             }
-
+            461310 {
+                $versionName = ".NET Framework 4.7.1"
+            }
+            461310 {
+                                $versionName = ".NET Framework 4.7.2"
+            }
             default {
                 $versionName = $clrVersion.Version
             }
@@ -99,7 +110,7 @@ process {
         Write-Verbose "Processing $server"
 
         Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun
-     
+
     }
 }
 

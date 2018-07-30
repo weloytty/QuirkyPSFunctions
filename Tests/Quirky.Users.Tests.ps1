@@ -15,14 +15,6 @@ Describe "Unit Testing Quirky User Functions:" {
     }
 
 
-    Context "Quirky\Get-QLocalUser" {
-      $results = Get-QLocalUser -ComputerName . -Name Administrator
-
-      It "Can see if there is an Administrator" {
-        $results | gm
-        $results.UserName | Should Be "Administrator"
-      }
-    }
 
     Context "Quirky\Test-IsAdmin" {
       $results = Test-IsAdmin
