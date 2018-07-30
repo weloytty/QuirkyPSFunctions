@@ -16,7 +16,7 @@ Foreach ($target in $ComputerName) {
     $binArray = ($data.uValue)[52..66]
     $charsArray = "B", "C", "D", "F", "G", "H", "J", "K", "M", "P", "Q", "R", "T", "V", "W", "X", "Y", "2", "3", "4", "6", "7", "8", "9"
     ## decrypt base24 encoded binary data
-    if ($binArray -ne $null) {
+    if ($null -ne $binArray) {
         For ($i = 24; $i -ge 0; $i--) {
             $k = 0
             For ($j = 14; $j -ge 0; $j--) {

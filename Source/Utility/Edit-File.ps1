@@ -15,7 +15,7 @@ Write-Verbose "Preferences editor is '$command'"
 Write-Verbose "Preferences arguments is '$arguments'"
 
 $expandedCommand = (Get-Command "notepad.exe").Source
-if ($command -eq $null) {
+if ($null -eq $command) {
     $command = "notepad.exe"
     $arguments = ''
 }

@@ -9,7 +9,7 @@ process
 {
 foreach($thisModuleName in $ModuleName){
  $dscResource = $(Get-DSCResource -Module $thisModuleName -ErrorAction SilentlyContinue)
-		if($dscResource -ne $null)
+		if($null -ne $dscResource)
 		{
 		  $modByName = @{}
 		  $modbyName.Name = $thisModuleName

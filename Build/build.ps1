@@ -1,4 +1,4 @@
-#Requires -Version 5.0
+#Requires -Version 6.0
 
 #
 # build.ps1
@@ -18,7 +18,7 @@ $thisPath = $(Split-Path $MyInvocation.MyCommand.Source -Parent)
 
 Write-Verbose "Path is $thisPath"
 if ($ScriptPath -eq '') { $scriptPath = Join-Path $thisPath "defaultPSake.ps1" }
-if ($TaskList -eq $null) { $TaskList += 'default' }
+if ($null -eq $TaskList) { $TaskList += 'default' }
 
 
 Push-Location

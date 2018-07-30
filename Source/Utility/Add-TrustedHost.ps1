@@ -37,7 +37,7 @@
 		  foreach ($s in $currentValue.Split(','))
 		  {
 			if (($s.Length -gt 0) -and (-not $newItems.Contains($s))) { $newItems += $s }
-			$WhatToWrite = $s
+			
 			if ($VerbosePreference -and (-not $ViewOnly))
 			{
 			  Write-Verbose $s

@@ -23,7 +23,7 @@ param(
     [int]$maxallowed = 16777216 
 ) 
  
-function Create-WMITrustee([string]$NTAccount) { 
+function New-WMITrustee([string]$NTAccount) { 
  
     $user = New-Object System.Security.Principal.NTAccount($NTAccount) 
     $strSID = $user.Translate([System.Security.Principal.SecurityIdentifier]) 
@@ -38,7 +38,7 @@ function Create-WMITrustee([string]$NTAccount) {
 } 
  
  
-function Create-WMIAce { 
+function New-WMIAce { 
     param( 
         [string]$account, 
         [System.Security.AccessControl.FileSystemRights]$rights 

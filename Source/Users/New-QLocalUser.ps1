@@ -14,7 +14,7 @@
   }
   process
   {
-    if ($Description -eq $null) { $description = "" }
+    if ($null -eq $Description) { $description = "" }
     $objOu = [adsi]"WinNT://$ComputerName,Computer"
     $objUser = $objOU.Create("User",$UserName)
     $objUser.setpassword($password)

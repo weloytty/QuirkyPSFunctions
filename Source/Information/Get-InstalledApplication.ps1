@@ -126,8 +126,8 @@
       $appResultsResults = $results | Where-Object { $_.Product -match $AppName }
       Write-Verbose "There are $($appResultsResults.Length) results for application $appname"
     }
-    Write-Verbose "Appresults is null: $($Appresults -eq $null)"
-    Write-Verbose "Publisher Results is null: $($publisherResults -eq $null)"
+    Write-Verbose "Appresults is null: $($null -eq $Appresults)"
+    Write-Verbose "Publisher Results is null: $($null -eq $publisherResults)"
     if (($AppName -ne "") -or ($Publisher -ne "")) {
       $results = $publisherResults + $appResultsResults
     }

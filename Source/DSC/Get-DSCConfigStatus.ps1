@@ -17,16 +17,16 @@
 	foreach ($computer in $ComputerName)
 	{
 	  $session = Get-CimSession -ComputerName $Computer -ErrorAction SilentlyContinue
-	  if ($session -eq $null)
+        if ($null -ne $session)
 	  {
 		$session = New-CimSession -ComputerName $computer
 	  }
 
-	  if ($session -eq $null) { throw "Can't create session on $computer" }
+	  if ($null -eq $session) { throw "Can't create session on $computer" }
 	  $allresults = Get-DscConfigurationStatus -CimSession $session -All:$All
 	  Remove-CimSession -CimSession $Session
 
-	  if ($allresults -ne $null) {
+	  if ($null -ne $allresults) {
 		foreach ($results in $allresults)
 		{
 		  if (-not $Quiet)
@@ -35,12 +35,12 @@
 
 			Write-Host ""
 			Write-Host "$paddedComputer Configuration: $($results.Status) Type: $($results.Type) Reboot Needed: $($results.RebootRequested)"
-			if ($results.NumberOfResources -ne $null -and $results.NumberOfResources -gt 0)
+			if ($null -ne $results.NumberOfResources -and $results.NumberOfResources -gt 0)
 			{
 
 			  foreach ($ids in $results.ResourcesInDesiredState)
 			  {
-				if ($ids -ne $null) {
+				if ($null -ne $ids) {
 				  $paddedConfiguration = $ids.ResourceID.padRight(40)
 				  Write-Host "  $paddedConfiguration In Desired State"
 				}
@@ -49,12 +49,12 @@
 			  foreach ($nds in $results.ResourcesNotInDesiredState)
 			  {
 
-				if ($nds -ne $null)
+				if ($null -ne $nds)
 				{
 
 
 				  $outputString = "Config Unknown "
-				  if($nds.ResourceId -ne $null){$outputString = $nds.ResourceId}
+				  if($null -ne $nds.ResourceId){$outputString = $nds.ResourceId}
 
 
 

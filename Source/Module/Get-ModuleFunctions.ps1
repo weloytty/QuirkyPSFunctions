@@ -12,10 +12,9 @@
   begin
   {
 	Set-StrictMode -Version Latest
-	$returnAlias = @{}
-	$returnFunction = @{}
-	$returnFilter = @{}
-	$returnCmdLet = @{}
+
+
+
 	$returnValue = @()
   }
   process
@@ -96,7 +95,7 @@
 			  $functionsByName += $($modbyName.ExportedDscResources.Values.Name)
 			}
 
-			if ($VerbosePreference) { Write-Verbose $($modByName |% {Write-Verbose $("$($_.CommandType) $($_.Name)")}) }
+			if ($VerbosePreference) { Write-Verbose $($modByName |ForEach-Object {Write-Verbose $("$($_.CommandType) $($_.Name)")}) }
 
 			if ($CommandType -ne 'All')
 			{
@@ -161,7 +160,7 @@ Write-Verbose "Working on function $g Number $functionNumber"
 
 					if ([bool]($commandInfo.PSobject.Properties.name -match "ResolvedCommand"))
 					{
-				  $commandInfo.ResolvedCommand = $($aliasInfo| Select -ExpandProperty ResolvedCommand)
+				  $commandInfo.ResolvedCommand = $($aliasInfo| Select-Object -ExpandProperty ResolvedCommand)
 				  $return.AliasInfo += $(New-Object -Type PSObject -Property $commandInfo)
 				  $aliasInfo = $null
 

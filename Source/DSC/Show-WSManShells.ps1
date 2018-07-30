@@ -8,7 +8,7 @@
 	{
 	  $shells = Get-WSManInstance -ConnectionUri "http:`/`/$($Computer):5985/wsman" shell -enum
 	  $results = $shells
-	  if ($UserName -ne $null -and $UserName.Length -gt 0) { $results = $null }
+	  if ($null -ne $UserName -and $UserName.Length -gt 0) { $results = $null }
 	  foreach ($user in $UserName)
 	  {
 		$results += $($shells | Where-Object { $_.Owner -eq $user })

@@ -19,7 +19,7 @@
       if ($computer -eq '.') { $computer = $Env:COMPUTERNAME }
       #Name                        Property   System.DirectoryServices.PropertyValueCollection
       $thisComputer = [adsi]"WinNT://$computer,computer"
-      $results = ($thisComputer.psbase.Children | Where-Object { $_.psbase.schemaclassname -eq 'user' } | select Name,Description,LastLogin)
+      $results = ($thisComputer.psbase.Children | Where-Object { $_.psbase.schemaclassname -eq 'user' } | Select-Object Name,Description,LastLogin)
 
       foreach ($returneduser in $results) {
 
