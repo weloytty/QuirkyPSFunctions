@@ -21,18 +21,18 @@ process {
         Write-Verbose "Invoking Get-Module -Name $ModuleName -ErrorAction SilentlyContinue"
         $thisModule = $(Get-Module -Name "$ModuleName" -ErrorAction SilentlyContinue)
 
-        if ($thisModule -eq $null) {
+        if ($null -eq $thisModule) {
             Write-Verbose "Can't find $ModuleName. Trying Get-Module with -ListAvailable"
             $thisModule = Get-Module -Name $ModuleName -ListAvailable -ErrorAction SilentlyContinue
         }
 
-        if ($thisModule -eq $null) {
+        if ($null -eq $thisModule) {
             Write-Verbose "Can't find $ModuleName. Trying Get-DSCResource "
             $thisModule = Get-DscResource -Module $ModuleName -ErrorAction SilentlyContinue
         }
 
-        if ($thisModule -ne $null) {
-            $count = $thisModule | Measure-Object | Select -ExpandProperty Count
+        if ($null -eq $thisModule) {
+            $count = $thisModule | Measure-Object | Select-Object -ExpandProperty Count
             if ($count -gt 1) {
                 Write-Verbose "There are $count versions of $ModuleName"
                 if ($VerbosePreference) {

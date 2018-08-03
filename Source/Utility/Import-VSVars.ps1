@@ -99,7 +99,7 @@ end {
         }
 
         '150|2017' {
-            if ((Get-Module -Name VSSetup -ListAvailable) -eq $null) {
+            if ($null -eq (Get-Module -Name VSSetup -ListAvailable) ) {
                 Write-Warning "You must install the VSSetup module to import Visual Studio variables for this version of Visual Studio."
                 Write-Warning "Install this PowerShell module with the command: Install-Module VSSetup -Scope CurrentUser"
                 throw "VSSetup module not installed, unable to import Visual Studio environment variables."

@@ -12,7 +12,7 @@ process {
 
     $file = Find-CommandSourceCode -Name $CommandName -Verbose:$VerbosePreference
     Write-Verbose "Find-CommandSource returned '$file'"
-    if ($file.Path -ne '' -and $file.Path -ne $null) {
+    if ($file.Path -ne '' -and $null -ne $file.Path) {
         Edit-File -FileName "$($file.Path)" -Verbose:$VerbosePreference
     } else { Write-Error "Can't find source for $CommandName" }
 

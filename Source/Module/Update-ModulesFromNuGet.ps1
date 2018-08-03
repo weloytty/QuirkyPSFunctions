@@ -11,7 +11,7 @@ Set-StrictMode -Version Latest
 $returnValues = @()
 $modules = Get-Module -listavailable:$AllAvailable | Where-Object RepositorySourceLocation -Match 'https'
 
-if ($modules -ne $null) {
+if ($null -ne $modules ) {
     foreach ($module in $modules) {
 
         $updatedmodule = $(Find-Module $module.Name | Select-Object Name, Version, Repository, PackageManagementProvider)
@@ -66,7 +66,7 @@ if ($modules -ne $null) {
     }
 
     $returnObject = $null
-    if ($returnValues -ne $null) {
+    if ($null -ne $returnValues ) {
         $returnObject = $returnValues
     }
 

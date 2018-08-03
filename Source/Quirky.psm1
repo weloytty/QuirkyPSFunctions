@@ -78,7 +78,7 @@ $totalEnvTime = ""
 $totalElapsed = 0
 
 $EditorCommand = $Global:QuirkyPreferences.Get_Item("EditorCommand")
-if ($EditorCommand -ne $null) {
+if ($null -ne $EditorCommand ) {
     if ($debugSpew) {
         Write-Host "Setting environment variable `$Env:EditorCommand to $($EditorCommand)`n"
     }
@@ -90,8 +90,7 @@ if ($EditorCommand -ne $null) {
     $currentEditorCommand = $env:EditorCommand
     if ($currentEditorCommand -ne $EditorCommand) {
         [environment]::SetEnvironmentVariable("EditorCommand", $EditorCommand, "User")
-    }
-    else {
+    } else {
         if ($debugSpew) {
             Write-Host "Environment variable EditorCommand $EditorCommand already set."
         }
@@ -109,7 +108,7 @@ if ($EditorCommand -ne $null) {
 }
 
 $EditorArgs = $Global:QuirkyPreferences.Get_Item("EditorArguments")
-if ($EditorArgs -ne $null) {
+if ($null -ne $EditorArgs ) {
     if ($debugSpew) {
         Write-Host "Setting environment variable `$Env:EditorArguments to $($EditorArgs)"
     }
@@ -123,8 +122,7 @@ if ($EditorArgs -ne $null) {
     $argsVar = $env:EditorArguments
     if ($argsVar -ne $EditorArgs) {
         [environment]::SetEnvironmentVariable("EditorArguments", $EditorArgs, "User")
-    }
-    else {
+    } else {
         if ($DebugSpew) {
             Write-Host "Environment variable EditorArgs $EditorArgs already set"
         }
@@ -143,8 +141,7 @@ if ($EditorArgs -ne $null) {
 
     }
     $envTimer = $null
-}
-else {if ($debugSpew) {Write-Host "No EditorArguments set.`n"}}
+} else {if ($debugSpew) {Write-Host "No EditorArguments set.`n"}}
 
 
 

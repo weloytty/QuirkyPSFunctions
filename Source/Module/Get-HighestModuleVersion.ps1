@@ -6,7 +6,7 @@ begin {
 
     Set-StrictMode -Version Latest
     
-    if ($Module -eq $null) {
+    if ($null -eq $Module ) {
         $Module = Get-Module -Name $ModuleName -All
     }
     $thisModule = $Module

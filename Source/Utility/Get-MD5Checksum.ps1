@@ -19,7 +19,7 @@ process {
     foreach ($file in $fileName) {
         if (Test-Path $file -PathType Leaf) {
 
-            $filePath = Get-Item $file | select -ExpandProperty FullName
+            $filePath = Get-Item $file | Select-Object -ExpandProperty FullName
 
             [byte[]]$hashBytes = $md5.ComputeHash([System.IO.File]::ReadAllBytes($filePath))
 

@@ -78,7 +78,7 @@ FunctionsToExport = 'Add-QDomainUserToLocalGroup', 'Add-TrustedHost', 'Edit-Comm
                'Get-DSCFunctions', 'Get-DSCResourcesInModule', 
                'Get-DSCResourceStatusByPath', 'Get-EnvironmentVariable', 
                'Get-Excuse', 'Get-ExpandedURL', 'Get-FileAttributes', 
-               'Get-FileVersion', 'Get-InstalledApplication', 'Get-LocalFileName', 
+               'Get-FileVersion', 'Get-InstalledApplication',  
                'Get-MD5Checksum', 'Get-ModuleFunctions', 'Get-NumberOfDays', 
                'Get-PowershellVersion', 'Get-Properties', 'Get-QLocalGroupMembers', 
                'Get-QLocalUser', 'Get-QLocalUsers', 'Get-ScriptDirectory', 

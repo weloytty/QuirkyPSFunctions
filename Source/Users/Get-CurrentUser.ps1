@@ -5,6 +5,8 @@
   begin
   {
     $returnValue = ""
+
+    
   }
   process
   {
@@ -16,7 +18,7 @@
     {
       $objUser = [adsi]"WinNT://$userDomain/$userName,user"
 
-      $members = $objUser | Get-Member
+      #$members = $objUser | Get-Member
       if ($VerbosePreference)
       {
 

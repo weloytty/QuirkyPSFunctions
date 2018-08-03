@@ -11,7 +11,7 @@ param(
 process {
     if (Test-Path $Path) {
         $Key = Get-Item -LiteralPath $Path
-        if ($Key.GetValue($Name, $null) -ne $null) {
+        if ($null -ne $Key.GetValue($Name, $null)) {
             if ($PassThru) {
                 Get-ItemProperty $Path $Name
             } else {

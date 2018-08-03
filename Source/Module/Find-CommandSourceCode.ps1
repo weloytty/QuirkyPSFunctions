@@ -18,7 +18,7 @@ process {
 
         $command = (Get-Command $commandName -ErrorAction SilentlyContinue)
 
-        if ($command -eq $null) { throw "Can't find $commandName" }
+        if ($null -eq $command) { throw "Can't find $commandName" }
 
         if ($command.CommandType -eq "Alias") {
             $expandedCommand = $(Get-Alias $command).Definition
@@ -36,7 +36,7 @@ process {
             if ($module -eq "Quirky.Module") { $module = "Quirky" }
 
             Write-Verbose "Module is $module"
-            if ($module -ne "" -and $module -ne $null) {
+            if ($module -ne "" -and  $null -ne $module ) {
 
                 if ($module -ne "Quirky") { Import-Module -Name $module }
 
@@ -94,7 +94,7 @@ process {
 
         [hashtable]$returnValues = @{}
 
-        if (($sourceFile -ne $null) -and ($sourceFile -ne '')) {
+        if (($null -ne $sourceFile ) -and ($sourceFile -ne '')) {
             $returnValues.FileInfo = $(Get-Item $sourceFile)
             $returnValues.Definition = $command.Definition
         } else {

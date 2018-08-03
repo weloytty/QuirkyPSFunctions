@@ -14,7 +14,7 @@
   {
     Set-StrictMode -Version Latest
 
-    if ($UserDomain -eq $null) { $UserDomain = ([adsi]'').Name }
+    if ($null -eq $UserDomain ){ $UserDomain = ([adsi]'').Name }
   }
   process
   {

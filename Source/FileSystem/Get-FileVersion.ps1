@@ -10,7 +10,7 @@
       $ver = (Get-Item $s).VersionInfo.FileVersion
       if (Test-Path -Path $s) {
         $msg = "$s version $ver"
-        if ($ver -eq $null) { $msg = "$s contains no version info" }
+        if ($null -eq $ver ) { $msg = "$s contains no version info" }
         Write-Output $msg
       }
     }
