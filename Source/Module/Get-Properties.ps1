@@ -4,7 +4,7 @@
 	[Parameter(ValueFromPipeline = $true,Position = 0)]
 	[object]$InputObject)
   Write-Verbose "Input Object Type: $($InputObject.GetType())"
-  [hashtable]$output = @{}
+ 
   foreach ($member in $InputObject.PSObject.Properties)
   {
 

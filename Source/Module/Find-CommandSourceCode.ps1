@@ -56,18 +56,15 @@ process {
                         Write-Verbose "Nested module is $($thisModule.ExportedCommands[$command].Module.Name), which is a $($thisModule.ModuleType)"
                         if ($thisModule.ModuleType -eq "Script") {
                             $sourceFile = $thisModule.ExportedFunctions[$command].Module.Path
-                        }
-                        else {
+                        } else {
                             Write-Verbose "I don't know what to do with $($thisModule.ModuleType)"
                         }
                     }
-                }
-                else {
+                } else {
                     Write-Verbose "Can't find a source for $($command.Name), using profile"
                     if ($sourceFile -eq '') { $sourceFile = $PROFILE }
                 }
-            }
-            else {
+            } else {
                 Write-Verbose "Can't find a source for $($command.Name).  Returning $PROFILE"
                 if ($sourceFile -eq $null -or $sourceFile -eq '') {
                     if (Test-Path $PROFILE) {
@@ -100,8 +97,7 @@ process {
         if (($sourceFile -ne $null) -and ($sourceFile -ne '')) {
             $returnValues.FileInfo = $(Get-Item $sourceFile)
             $returnValues.Definition = $command.Definition
-        }
-        else {
+        } else {
             $returnValues.FileInfo = $null
         }
         if ($binaryFile -eq $false) {

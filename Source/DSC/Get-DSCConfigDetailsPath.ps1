@@ -28,7 +28,7 @@ begin {
             Write-Host "$paddedComputer Configuration: $(Split-Path $mofPath -Leaf) ($mofPath)"
         }
 
-        if ($results -ne $null -and (-not $Quiet)) {
+        if ($null -ne $results -and (-not $Quiet)) {
 
             foreach ($ids in $results.ResourcesInDesiredState) {
 
@@ -73,7 +73,7 @@ process {
             if (Test-Path $(Join-Path $runFirst "$computer.mof")) {
                 $results = (Get-ConfigStatus $Computer $runFirst -Quiet:$Quiet -Verbose:$VerbosePreference)
                 [hashtable]$info = @{}
-                if ($results -ne $null) {
+                if ($null -ne $results) {
 
                     $info.ConfigName = (Split-Path $runFirst -Leaf)
                     $info.InDesiredState = $results.InDesiredState
@@ -88,7 +88,7 @@ process {
 
 
             $mofFolders = (Get-ChildItem -Path $MofRoot -Directory -Exclude 'runfirst')
-            if ($mofFolders -eq $null) {
+            if ($null -ne $mofFolders ) {
                 $mofFolders = Get-Item $mofRoot
             }
 
@@ -100,7 +100,7 @@ process {
                     $info.InDesiredState = $false
                     $info.StatusInfo = $null
 
-                    if ($results -ne $null -and ($results.PSObject.Properties.Name -match "InDesiredState")) {
+                    if ($null -ne $results -and ($results.PSObject.Properties.Name -match "InDesiredState")) {
                         $info.InDesiredState = $results.InDesiredState
                         $info.StatusInfo = $results
                     }

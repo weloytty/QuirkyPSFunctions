@@ -45,7 +45,6 @@ process {
                 $fileInfo.Class = $fileClass
                 [DateTime]$fileInfo.SourceDate = $fileItem.LastWriteTime
                 $fileInfo.SourceSize = $fileItem.Length
-                $fileInfo.SourceChecksum = $(Get-MD5Checksum -FileName $fileItem.FullName|select -expand HashBase64String)
                 $fileInfo.TargetDate = $null
                 $fileInfo.TargetSize = $null
                 $fileInfo.TargetChecksum = $null
@@ -55,7 +54,7 @@ process {
                     $targetItem = Get-Item $targetName
                     $fileInfo.TargetDate = $targetItem.LastWriteTime
                     $fileInfo.TargetSize = $targetItem.Length 
-                    $fileInfo.TargetChecksum = $(Get-MD5Checksum -FileName $targetItem.FullName|Select -Expand HashBase64String)
+                    $fileInfo.TargetChecksum = $(Get-MD5Checksum -FileName $targetItem.FullName|Select-Object -Expand HashBase64String)
                 } else {Write-Verbose "Can't find $targetName"}
                 $fileObject = New-Object -TypeName PSObject -Property $fileInfo
                 $returnValues.Files += $fileObject

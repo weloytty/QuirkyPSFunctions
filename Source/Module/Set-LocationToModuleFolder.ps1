@@ -12,7 +12,7 @@ begin {
 
 process {
 
-    $pathToSet = $env:PSModulePath -split ";" -match $env:USERNAME
+    $pathToSet = $($env:PSModulePath -split ";" -match $env:USERNAME)[0]
 
     Write-Verbose "Path to set is originally $pathToSet"
     Write-Verbose "Looking for $ModuleName"
