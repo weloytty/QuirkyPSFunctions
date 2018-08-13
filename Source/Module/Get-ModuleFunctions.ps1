@@ -74,11 +74,13 @@ process {
 
                 if (($null -ne $modByName.ExportedCommands ) -and ($null -ne $modByName.ExportedCommands.Values)) {
                     Write-Verbose "Module is not null, getting exported commands"
-                    if ($null -ne $modbyName.ExportedCommands -and $null -ne $modbyName.ExportedCommands.Values ) {
+                    if ($null -ne $modbyName.ExportedCommands -and $modbyName.ExportedCommands.Count -gt 0) {
                         $functionByName = $($modbyName.ExportedCommands.Values.Name)
                     }
                     if ($($null -ne $modbyName.ExportedDscResources )) {
+                        if($modByName.ExportedDscResources.Count -gt 0){
                         $functionsByName += $($modbyName.ExportedDscResources.Values.Name)
+                        }else{Write-Verbose "No DSC Resources"}
                     }
 
                     if ($VerbosePreference) { Write-Verbose $($modByName |ForEach-Object {Write-Verbose $("$($_.CommandType) $($_.Name)")}) }
