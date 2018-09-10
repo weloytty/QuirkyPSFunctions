@@ -20,7 +20,9 @@ process {
     if ($ModuleName.Length -gt 0) {
         Write-Verbose "Invoking Get-Module -Name $ModuleName -ErrorAction SilentlyContinue"
         $thisModule = $(Get-Module -Name "$ModuleName" -ErrorAction SilentlyContinue)
-
+        if ($null -ne $thisModule) {
+            Write-Verbose "Found $ModuleName in $($thisModule.Path)"
+            $pathToSet = $thisModule.ModuleBase}
         if ($null -eq $thisModule) {
             Write-Verbose "Can't find $ModuleName. Trying Get-Module with -ListAvailable"
             $thisModule = Get-Module -Name $ModuleName -ListAvailable -ErrorAction SilentlyContinue
