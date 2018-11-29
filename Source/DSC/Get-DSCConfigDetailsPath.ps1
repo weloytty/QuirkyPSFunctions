@@ -88,15 +88,18 @@ process {
 
 
             $mofFolders = (Get-ChildItem -Path $MofRoot -Directory -Exclude 'runfirst')
-            if ($null -ne $mofFolders ) {
+            if ($null -eq $mofFolders ) {
+                Write-Verbose "$mofFolders is null!"
                 $mofFolders = Get-Item $mofRoot
             }
 
-            foreach ($folder in $mofFolders.FullName) {
-                if (Test-Path $(Join-Path $folder "$computer.mof")) {
-                    $results = (Get-ConfigStatus $computer $folder -Quiet:$Quiet)
+            foreach ($folder in $mofFolders) {
+                $fl = $folder.FullName
+
+                if (Test-Path $(Join-Path $fl "$computer.mof")) {
+                    $results = (Get-ConfigStatus $computer $fl -Quiet:$Quiet)
                     [hashtable]$info = @{}
-                    $info.ConfigName = (Split-Path $folder -Leaf)
+                    $info.ConfigName = (Split-Path $fl -Leaf)
                     $info.InDesiredState = $false
                     $info.StatusInfo = $null
 
@@ -106,7 +109,7 @@ process {
                     }
                     $infoObject = New-Object -Type PSObject -Property $info
                     $theseResults.StatusInfo += $infoObject
-                } else { if (-not $Quiet) { Write-Host "No config for $computer at $folder" } }
+                } else { if (-not $Quiet) { Write-Host "No config for $computer at $fl" } }
 
             }
 
