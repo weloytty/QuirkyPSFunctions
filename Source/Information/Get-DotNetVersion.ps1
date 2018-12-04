@@ -72,12 +72,11 @@ begin {
             460805 {
                 $versionName = ".NET Framework 4.7"
             }
-            461310 {
-                $versionName = ".NET Framework 4.7.1"
-            }
-            461310 {
-                                $versionName = ".NET Framework 4.7.2"
-            }
+            461310 {$versionName = ".NET Framework 4.7.1"}
+            461308 {$versionName = '.NET Framework 4.7.1'}
+            461310 {$versionName = ".NET Framework 4.7.2"}
+            461814 {$versionName = ".NET Framework 4.7.2"}
+            461808 {$versionName = ".NET Framework 4.7.2"}
             default {
                 $versionName = $clrVersion.Version
             }
@@ -106,6 +105,8 @@ begin {
 }
 process {
 
+    #https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
+    
     foreach ($server in $ComputerName) {
         Write-Verbose "Processing $server"
 
