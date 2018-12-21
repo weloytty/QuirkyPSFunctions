@@ -18,11 +18,13 @@ Describe "Unit Testing Quirky User Functions:" {
 
     Context "Quirky\Test-IsAdmin" {
       $results = Test-IsAdmin
+      
+      #the build is the main consumer of these tests, and since
+      #it copies to $env:ProgramFiles, it must be running as admin.
+      
       $expectedResult = $true
 
-      #on win7 if you're an admin, this will return true.  On win10 (and 8?)
-      #you wont show as admin unless you're elevated
-      if ([System.Environment]::OSVersion.Version.Build -gt 7601) { $expectedResult = $false }
+      
 
 
       It "Should if I'm an admin on this computer" {

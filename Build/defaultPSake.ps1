@@ -91,8 +91,7 @@ Task Clean -depends TestProperties -Description "Cleans out the destination modu
             Assert (-not (Test-Path $($deleteFolder.FullName) -PathType Container)) -failureMessage "$m_outputPath not deleted"
         }
 
-    }
-    else {
+    } else {
         Write-Verbose "$m_outputPath not available"
     }
     Write-Host "Task Clean Succeeded"
@@ -142,7 +141,12 @@ Task -Name DeployModule -depends TestProperties -Description "Deploys the files"
     Write-Output "Deploy $m_outputPath"
     Write-output "Version $m_Moduleversion"
 
-    $modPath = $(Join-Path "$PROFILEROOT" "Modules\Quirky")
+    
+    
+    $modPath = $(Join-Path "$($env:programfiles)" "PowerShell\Modules\Quirky")
+    if ($PSVersionTable.PSVersion.Major -lt 6) {
+        $modPath = $(Join-Path "$($env:programfiles)" "WindowsPowerShell\Modules\Quirky")
+    }
     $versionPath = $(Join-Path "$modPath" "$script:m_moduleVersion")
     if (Test-Path -Path $versionPath) {Remove-Item $versionPath -Recurse -force }
     Write-Output "Copying $psdPath to $versionPath"
@@ -294,9 +298,8 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
     Write-Verbose "Running Test-MoudleManifest -Path $destinationPSD"
     Assert ($(Test-ModuleManifest -Path "$destinationPSD" -ErrorAction SilentlyContinue; $?)) -failureMessage "$destinationPSD does not validate"
     Write-Verbose "ExportedFunctions.Count is $($ExportedFunctions.Count)"
-    if($exportedFunctions.Count -gt 0)
-    {
-       # Write-Verbose "Updating $psdFile with exported functions"
+    if ($exportedFunctions.Count -gt 0) {
+        # Write-Verbose "Updating $psdFile with exported functions"
  
         #Update-ModuleManifest -Path "$destinationPSD" -FunctionsToExport $exportedFunctions
     }
