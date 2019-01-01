@@ -36,7 +36,7 @@
   }
   end
   {
-    return $returnValue
+    $returnValue
   }
 
 

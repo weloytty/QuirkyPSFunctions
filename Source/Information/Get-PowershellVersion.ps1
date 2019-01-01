@@ -7,6 +7,11 @@ param(
     [switch]$DisplayOnly,
     [switch]$Quiet)
 begin {
+    
+    Set-StrictMode -Version Latest
+
+    $rv = @()
+
     $ScriptToRun = {
 
         $VerbosePreference = $using:VerbosePreference
@@ -30,7 +35,7 @@ begin {
         }
 
 
-        $PSVersiontable
+        $returnObject
     }
 }
 process {
@@ -39,8 +44,10 @@ process {
         Write-Verbose "Processing $server"
         $retVal = $null
         Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun -EnableNetworkAccess -OutVariable retVal
-
+        $rv += $retVal
     }
 }
-
-
+end {
+    if($DisplayOnly){$rv=$null}
+    $rv
+}

@@ -68,10 +68,10 @@ process {
             $myView.GetType().InvokeMember("Execute", "InvokeMethod", $Null, $myView, $Null)
  
             $myRecord = $myView.GetType().InvokeMember("Fetch", "InvokeMethod", $Null, $myView, $Null)
-            if ($myRecord -ne $null) {
+            if ($null -ne $myRecord) {
                 #$thisMSIInfo = $myRecord.GetType().InvokeMember("StringData", "GetProperty", $Null, $myRecord, 1)
                 
-                while ($myRecord -ne $null) {
+                while ($null -ne $myRecord) {
                     $prop_name = $myRecord.GetType().InvokeMember("StringData", "GetProperty", $Null, $myRecord, 1) 
 
                     Write-Verbose "prop_name='$prop_name'"
