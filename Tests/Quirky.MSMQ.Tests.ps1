@@ -10,7 +10,7 @@ Describe "Unit Testing Quirky MSMQ:" {
             }
         }
         Context "Clear-QueueExists" {
-            $returnValue = (Get-Command Clear-Queue).Source
+            $returnValue = (Get-Command Clear-RemoteQueue).Source
             It "Should know about Clear-Queue" {
                 $returnValue | Should Be "Quirky.MSMQ"
             }
