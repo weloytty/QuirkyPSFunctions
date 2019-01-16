@@ -82,7 +82,7 @@ begin {
 process {
 
     foreach ($Computer in $ComputerName) {
-        if (Test-NetConnection -ComputerName $computer -InformationLevel Quiet) {
+        if (Test-Port -ComputerName $computer -Quiet -Port 3389) {
 
             Invoke-Command -ComputerName $computer -ScriptBlock $SB
 

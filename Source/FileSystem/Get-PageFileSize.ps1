@@ -19,7 +19,7 @@ process {
         $pfToCheck = "\\$computer\c$\pagefile.sys"
        
        
-        If (Test-NetConnection -ComputerName $Computer -InformationLevel Quiet -CommonTCPPort SMB) {
+        If (Test-Port -ComputerName $Computer -Quiet -Port 3389) {
             $computerValue = @{}
             $computerValue.ComputerName = $Computer
             if (Test-Path -Path $pfToCheck ) {

@@ -8,7 +8,7 @@ param(
     [string[]]$UserName
 )
 
-if (Test-NetConnection -Computer $computerName -InformationLevel Quiet) {
+if (Test-Port -Computer $computerName -Quiet -Port 3389) {
 
     foreach ($user in $UserName) {
         Write-Verbose "Closing shells for $user"

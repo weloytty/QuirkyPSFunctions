@@ -3,7 +3,7 @@ param([string[]]$ComputerName = "localhost",
     [string[]]$UserName)
 $results = @()
 foreach ($computer in $ComputerName) {
-    if (Test-NetConnection -ComputerName $Computer -InformationLevel Quiet) {
+    if (Test-Port -ComputerName $Computer -Quiet -Port 3389) {
         $shells = Get-WSManInstance -ConnectionUri "http:`/`/$($Computer):5985/wsman" shell -enum
         $results = $shells
         if ($null -ne $UserName -and $UserName.Length -gt 0) { $results = $null }
