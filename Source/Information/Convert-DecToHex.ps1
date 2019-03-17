@@ -6,9 +6,6 @@ param([int]$InputNumber
 begin {
     Set-StrictMode -Version Latest   
 
-
-
-    
 }
 
 process {

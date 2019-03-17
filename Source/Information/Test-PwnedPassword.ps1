@@ -20,7 +20,7 @@ process {
 
     Write-Verbose "URI      : $requestString"
     Write-Verbose "Prefix   : $prefix"
-    write-verbose "Full URI : $requestString$prefix"
+    write-Verbose "Full URI : $requestString$prefix"
     Write-Verbose "Remainder: $remainder"
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

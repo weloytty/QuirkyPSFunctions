@@ -8,7 +8,7 @@
 
 	  $regpath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 	  $regproperty = "SecureProtocols"
-	  $currValue = (Get-ItemProperty -Path $regpath | select -ExpandProperty $regproperty)
+	  $currValue = (Get-ItemProperty -Path $regpath | Select-Object -ExpandProperty $regproperty)
 
 	  Write-Verbose "Current value of '$regpath\$regproperty' is $currValue"
 	  if ($currvalue -ne $SetTo) {

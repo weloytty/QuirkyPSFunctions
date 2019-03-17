@@ -29,9 +29,8 @@
 		  $currentItemsMessage = "Current Trusted Hosts:"
 		  if ($VerbosePreference -and (-not $ViewOnly))
 		  {
-			Write-Verbose $currentItemsMessage
-		  } else
-		  {
+				Write-Verbose $currentItemsMessage
+		  } else		  {
 			Write-Output $currentItemsMessage
 		  }
 		  foreach ($s in $currentValue.Split(','))
