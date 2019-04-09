@@ -1,4 +1,3 @@
-Set-Alias md5 -Value Get-MD5Checksum
 Set-Alias fi -Value Find-Items
 Set-Alias gev Get-EnvironmentVariable
 Set-Alias ief -Value Set-IEFriendlyErrors
@@ -11,3 +10,5 @@ Set-Alias ppx -Value Format-QXml
 Set-Alias shares Get-ComputerShares
 Set-Alias fi -Value Find-Items
 Set-Alias gpb -Value Get-ProcessBitness
+Set-Alias urlencode -Value Get-UrlEncodedString
+Set-Alias urldecode -Value Get-UrlDecodedString
