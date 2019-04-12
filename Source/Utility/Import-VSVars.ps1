@@ -39,7 +39,7 @@
 param
 (
     [Parameter(Position = 0)]
-    [ValidateSet('90', '2008', '100', '2010', '110', '2012', '120', '2013', '140', '2015', '150', '2017')]
+    [ValidateSet('90', '2008', '100', '2010', '110', '2012', '120', '2013', '140', '2015', '150', '2017','160','2019')]
     [string] $VisualStudioVersion,
     [Parameter(Position = 1)]
     [string] $Architecture
@@ -106,8 +106,28 @@ end {
             }
             Import-Module VSSetup -ErrorAction Stop
             $installPath = Get-VSSetupInstance | 
-                Select-VSSetupInstance -Version '[15.0,16.0)' -Require Microsoft.VisualStudio.Component.VC.Tools.x86.x64 | 
-                Select-Object -First 1 | ForEach-Object InstallationPath
+            Select-VSSetupInstance -Version '[15.0,16.0)' -Require Microsoft.VisualStudio.Component.VC.Tools.x86.x64 | 
+            Select-Object -First 1 | ForEach-Object InstallationPath
+            #Push-EnvironmentBlock -Description "Before importing VS 2017 $Architecture environment variables"
+            FindAndLoadBatchFile "$installPath/Common7/Tools" $ArchSpecified -IsAppxInstall
+        }
+        
+        '160|2019' {
+
+            if ((Get-Module -Name VSSetup -ListAvailable) -eq $null) {
+                Write-Warning "Can't find the VSSetup module to import Visual Studio variables for this version of Visual Studio."
+                Write-Warning "Trying to pull module from PSGallery."
+                Find-Module VSSetup | Install-Module -Scope CurrentUser
+            }
+            if ((Get-Module -Name VSSetup -ListAvailable) -eq $null) {
+                Write-Warning "You must install the VSSetup module to import Visual Studio variables for this version of Visual Studio."
+                Write-Warning "Install this PowerShell module with the command: Install-Module VSSetup -Scope CurrentUser"
+                throw "VSSetup module not installed, unable to import Visual Studio environment variables."
+            }
+            Import-Module VSSetup -ErrorAction Stop
+            $installPath = Get-VSSetupInstance | 
+            Select-VSSetupInstance -Version '[16.0,17.0)' -Require Microsoft.VisualStudio.Component.VC.Tools.x86.x64 | 
+            Select-Object -First 1 | ForEach-Object InstallationPath
             #Push-EnvironmentBlock -Description "Before importing VS 2017 $Architecture environment variables"
             FindAndLoadBatchFile "$installPath/Common7/Tools" $ArchSpecified -IsAppxInstall
         }
