@@ -13,8 +13,8 @@
 .PARAMETER VisualStudioVersion
     The version of Visual Studio to import environment variables for. Valid
     values are the common name for the Visual Studo Version (i.e. 2008, 2010, 
-	2012, 2013, 2015 and 2017) or the Visual Studio Version itself (i.e. 90,
-	100, 110, 120, 140, 150).
+	2012, 2013, 2015, 2017, and 2019) or the Visual Studio Version itself 
+	(i.e. 90, 100, 110, 120, 140, 150, 160).
 .PARAMETER Architecture
     Selects the desired architecture to configure the environment for.
     Defaults to x86 if running in 32-bit PowerShell, otherwise defaults to
