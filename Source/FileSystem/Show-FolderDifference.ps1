@@ -54,7 +54,7 @@ process {
                     $targetItem = Get-Item $targetName
                     $fileInfo.TargetDate = $targetItem.LastWriteTime
                     $fileInfo.TargetSize = $targetItem.Length 
-                    $fileInfo.TargetChecksum = $(Get-MD5Checksum -FileName $targetItem.FullName|Select-Object -Expand HashBase64String)
+                    $fileInfo.TargetChecksum = $(Get-FileHash -Path $targetItem.FullName|Select-Object -Expand Hash)
                 } else {Write-Verbose "Can't find $targetName"}
                 $fileObject = New-Object -TypeName PSObject -Property $fileInfo
                 $returnValues.Files += $fileObject

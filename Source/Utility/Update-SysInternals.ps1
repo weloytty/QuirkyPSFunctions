@@ -42,17 +42,19 @@ if (-not (Test-Path -Path $ExtractLocation -PathType Container)) {
 }
 
 $downloadFile = (Join-Path $DownloadLocation $targetFile)
-$NewFileChecksum = Get-MD5Checksum -String "$DownloadLocation"
-$CurrentFileChecksum = Get-MD5Checksum -String "$ExtractLocation"
+
+#Write-Verbose "Get-FileHash -Path $($DownloadLocation)"
+#$NewFileChecksum = Get-FileHash  -Path "$DownloadLocation"
+#Write-Verbose "Get-FileHash -Path $($ExtractLocation)"
+#$CurrentFileChecksum = Get-FileHash -Path "$ExtractLocation"
 
 $fileToExtract = $(Join-Path $ExtractLocation $targetFile)
 Write-Verbose "URL              : $urlToGet"
 Write-Verbose "Download File    : $downloadFile"
 Write-Verbose "Saved File       : $fileToExtract"
 
-if (Test-Path $fileToExtract) {
-    $CurrentFileChecksum = (Get-MD5Checksum -FileName $fileToExtract)
-
+if (Test-Path $fileToExtract -PathType Leaf) {
+    $CurrentFileChecksum = (Get-FileHash -Path $fileToExtract)
 }
 
 Write-Output "Downloading"
@@ -60,16 +62,16 @@ Write-Output "       $urlToGet "
 Write-Output "       to $downloadFile"
 Invoke-WebRequest -Uri $urlToGet -OutFile $downloadFile
 
-if (-not (Test-Path $downloadFile)) { throw "Can't find downloaded file $downloadFile" }
+if (-not (Test-Path $downloadFile -PathType Leaf)) { throw "Can't find downloaded file $downloadFile" }
 
-$NewFileChecksum = (Get-MD5Checksum -FileName $downloadFile)
-Write-Verbose "New File MD5    : $($NewFileChecksum.HashString)"
-Write-Verbose "Old File MD5    : $($CurrentFileChecksum.HashString)"
+$NewFileChecksum = (Get-FileHash -Path $downloadFile)
+Write-Verbose "New File MD5    : $($NewFileChecksum.Hash)"
+Write-Verbose "Old File MD5    : $($CurrentFileChecksum.Hash)"
 
 
 if ($Force) { Write-Output "Force is set, file will be copied to $fileToExtract" }
 
-if ($Force -or ($CurrentFileChecksum.HashString -ne $NewFileChecksum.HashString)) {
+if ($Force -or ($CurrentFileChecksum.Hash -ne $NewFileChecksum.Hash)) {
     Write-Verbose "Copying:"
     Write-Verbose "$downloadFile"
     Write-Verbose "to $fileToExtract"
@@ -87,8 +89,8 @@ if ($Force -or ($CurrentFileChecksum.HashString -ne $NewFileChecksum.HashString)
     }
 } else {
     Write-Output "Not extracting file, files match."
-    Write-Verbose "     New File MD5    : $($Newfilechecksum.HashString)"
-    Write-Verbose "     Current File MD5: $($CurrentFileChecksum.HashString)"
+    Write-Verbose "     New File MD5    : $($Newfilechecksum.Hash)"
+    Write-Verbose "     Current File MD5: $($CurrentFileChecksum.Hash)"
     Write-Verbose "     To force extraction, run the command again with -Force"
 }
 
