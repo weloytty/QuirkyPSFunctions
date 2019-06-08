@@ -25,7 +25,8 @@ param()
 #                 I gave it that spiffy name
 #
 
-Set-StrictMode -Version Latest  
+#no strict mode inn 4.8 due to https://github.com/psake/psake/issues/277
+#Set-StrictMode -Version Latest  
 
 Include ".\buildFunctions.ps1"
 

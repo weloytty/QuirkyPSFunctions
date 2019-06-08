@@ -53,6 +53,7 @@ Write-Verbose "URL              : $urlToGet"
 Write-Verbose "Download File    : $downloadFile"
 Write-Verbose "Saved File       : $fileToExtract"
 
+$CurrentFileChecksum = $null
 if (Test-Path $fileToExtract -PathType Leaf) {
     $CurrentFileChecksum = (Get-FileHash -Path $fileToExtract)
 }
@@ -66,7 +67,9 @@ if (-not (Test-Path $downloadFile -PathType Leaf)) { throw "Can't find downloade
 
 $NewFileChecksum = (Get-FileHash -Path $downloadFile)
 Write-Verbose "New File MD5    : $($NewFileChecksum.Hash)"
-Write-Verbose "Old File MD5    : $($CurrentFileChecksum.Hash)"
+if($null -ne $currentFileChecksum) {
+    Write-Verbose "Old File MD5    : $($CurrentFileChecksum.Hash)"
+}else{$Force = $true}
 
 
 if ($Force) { Write-Output "Force is set, file will be copied to $fileToExtract" }
