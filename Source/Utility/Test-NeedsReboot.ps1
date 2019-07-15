@@ -6,10 +6,13 @@ param(
     [switch]$DisplayOnly,
     [switch]$Quiet)
 begin {
-    $SB = {
-        $VerbosePreference = $using:VerbosePreference
+    $SB = {param(
+            $Verbose,
+            $Quiet,
+            $DisplayOnly)
+        
         $paddedComputer = $env:ComputerName.padRight(15)
-
+        $VerbosePreference = $Verbose
         $ComponentBasedServicing = $false
         $cbsValue = (Get-ChildItem 'hklm:SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\').Name
         if ($cbsValue -ne $null) {
@@ -67,10 +70,10 @@ begin {
         if (-not $needsReboot) {
             $reason = ""
         }
-        if (-not $using:Quiet) {
+        if (-not $Quiet) {
             Write-Output "$PaddedComputer needs reboot: $needsReboot $reason"
         }
-        if ($using:DisplayOnly) {
+        if ($DisplayOnly) {
             $needsReboot = $null
         }
         return $needsReboot
@@ -83,15 +86,15 @@ process {
 
     foreach ($Computer in $ComputerName) {
         if (Test-Port -ComputerName $computer -Quiet -Port 3389) {
-
-            Invoke-Command -ComputerName $computer -ScriptBlock $SB
+            if ($computer -eq $env:ComputerName) {
+                Invoke-Command -ScriptBlock $SB  -ArgumentList $VerbosePreference, $Quiet, $DisplayOnly
+            } else {
+                Invoke-Command -ComputerName $computer -ScriptBlock $SB  -ArgumentList $VerbosePreference, $Quiet, $DisplayOnly
+            }
 
         } else {
             Write-Output "$($Computer.PadRight(15)) not available"
         }
-
-
-
     }
 }
 
