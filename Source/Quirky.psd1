@@ -102,7 +102,8 @@ FunctionsToExport = 'Add-TrustedHost', 'Edit-Command', 'Edit-File',
                'Format-DiskSize', 'Get-PageFileSize', 'Convert-HexToDec', 
                'Convert-DecToHex', 'Get-UserNameFromSid', 'ConvertFrom-Base26', 
                'ConvertTo-Base26', 'Get-ProcessBitness', 'Get-EnumValues', 
-               'Get-UrlEncodedString', 'Get-UrlDecodedString','Test-PSRemoting'
+               'Get-UrlEncodedString', 'Get-UrlDecodedString','Test-PSRemoting',
+               'Grant-LogOnAsService'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
