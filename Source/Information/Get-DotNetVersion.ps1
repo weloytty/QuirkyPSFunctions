@@ -49,6 +49,8 @@ begin {
             461310 {$versionName = ".NET Framework 4.7.2"}
             461814 {$versionName = ".NET Framework 4.7.2"}
             461808 {$versionName = ".NET Framework 4.7.2"}
+            528049 {$versionName = ".NET Framework 4.8"}
+            528040 {$versionName = ".NET Framework 4.8"}
             default {$versionName = $clrVersion.Version}
         }
 

@@ -114,12 +114,12 @@ end {
         
         '160|2019' {
 
-            if ((Get-Module -Name VSSetup -ListAvailable) -eq $null) {
+            if ($null -eq (Get-Module -Name VSSetup -ListAvailable)) {
                 Write-Warning "Can't find the VSSetup module to import Visual Studio variables for this version of Visual Studio."
                 Write-Warning "Trying to pull module from PSGallery."
                 Find-Module VSSetup | Install-Module -Scope CurrentUser
             }
-            if ((Get-Module -Name VSSetup -ListAvailable) -eq $null) {
+            if ($null -eq (Get-Module -Name VSSetup -ListAvailable)) {
                 Write-Warning "You must install the VSSetup module to import Visual Studio variables for this version of Visual Studio."
                 Write-Warning "Install this PowerShell module with the command: Install-Module VSSetup -Scope CurrentUser"
                 throw "VSSetup module not installed, unable to import Visual Studio environment variables."
@@ -144,7 +144,7 @@ end {
 
                 $vscomntoolspath = $envvar.Value
                 $vcvarsallPath = Join-Path $vscomntoolspath "..\..\VC\vcvarsall.bat"
-                Write-Verbose "Invoking default path $vcvarsallPath $Architecture"
+                Write-Verbose "Invoking default path $vcvarsallPath $Architecture for VS $ver"
                 Invoke-BatchFile $vcvarsallPath $Architecture
             }
         }
