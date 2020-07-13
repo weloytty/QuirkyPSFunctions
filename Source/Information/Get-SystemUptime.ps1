@@ -43,7 +43,7 @@ process {
 }
 
 end {
-    return $returnValues
+    $returnValues
 }
 
 

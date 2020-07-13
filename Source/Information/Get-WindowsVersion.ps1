@@ -44,7 +44,7 @@ begin {
 
         if ($using:DisplayOnly) { $returnObject = $null }
 
-        return $returnObject
+        $returnObject
 
 
 

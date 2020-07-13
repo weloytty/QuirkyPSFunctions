@@ -1,49 +1,38 @@
 [CmdletBinding()]
 Param(
-    [parameter(ParameterSetName = 'ComputerName', Position = 0, Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+    [parameter(Position = 0, Mandatory = $true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
     [string[]]$ComputerName,
-    [parameter(Mandatory = $true , Position = 1)]
-    [int]$Port,
-    [switch]$Quiet,
-    [switch]$DisplayOnly
+    [parameter( Position = 1)]
+    [int]$Port = 3389,
+    [switch]$Quiet
 )
 
 
 begin {
-    
+
     $remoteServer = $ComputerName
     [bool] $returnValue = $false
     if ($VerbosePreference) {$Quiet = $false}
-
 }
 
 process {
-
-    
-    $test = New-Object System.Net.Sockets.TcpClient;
-    
-    Try {
-        foreach ($server in $RemoteServer) {
-
-            try {
-                if (-not $Quiet) {Write-Host "Connecting to ${server}:${Port} (TCP).." -NoNewLine; }
-                $test.Connect($server, $Port);
-                $returnValue = $true
-                if (-not $Quiet) {Write-Host ".successful"; }
-            } catch {if (-not $Quiet) {Write-Host ".failed"; }}
+Write-Verbose "Processing $remoteServer"
+    foreach ($r in $remoteServer) {
+        Write-Verbose "$r"
+        $test = New-Object System.Net.Sockets.TcpClient;
+        Try {
+            $rd = $r.PadRight(15)
+            if (-not $Quiet) {Write-Host "Connecting to "$rd":"$Port" (TCP)..." -NoNewLine; }
+            $test.Connect($r, $Port);
+            $returnValue = $true
+            if (-not $Quiet) {Write-Host "...succeeded."; }
+        } Catch {
+            if (-not $Quiet) {Write-Host "...failed."; }
+        } Finally {
+            $test.Dispose();
         }
-    } Catch {
-        Write-Host "Error!"
-    } Finally {
-        $test.Dispose();
     }
-    
-
 }
 end {
-
-    if (-not $DisplayOnly) {
-        return $returnValue
-    }
-    
+    $returnValue
 }

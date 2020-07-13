@@ -18,7 +18,7 @@ try {
     $vm = Get-AzureRmVM -ResourceGroupName $resourcegroup -Name $vmname -Status -ErrorAction Stop
 } catch {
     Write-Output "Logging into Azure"
-    if (($AzureSubscription -eq $null) -or ($AzureSubscription -eq '')) {
+    if (($null -eq $AzureSubscription) -or ($AzureSubscription -eq '')) {
         $azureSubscription = $Global:QuirkyPreferences.Get_Item("AzureSubscription")
     }
     Write-Verbose "Logging in using subscription '$azureSubscription'"
@@ -32,12 +32,12 @@ try {
     $vm = Get-AzureRmVM -ResourceGroupName $resourcegroup -Name $vmname -Status
 }
 
-if ($vm -eq $null) { throw "Can't get Azure VM" }
+if ($null -eq $vm) { throw "Can't get Azure VM" }
 
 $status = $vm | `
-    select -ExpandProperty Statuses | `
+    Select-Object -ExpandProperty Statuses | `
     Where-Object { $_.Code -match "PowerState" } | `
-    select -ExpandProperty displaystatus
+    Select-Object -ExpandProperty displaystatus
 
 
 $currentTitle = $host.UI.RawUI.WindowTitle

@@ -42,7 +42,7 @@ process {
         } catch {
             Write-Verbose "Logging into Azure"
 
-            if (($AzureSubscription -eq $null) -or ($AzureSubscription -eq '')) {
+            if (($null -eq $AzureSubscription) -or ($AzureSubscription -eq '')) {
                 $azureSubscription = $Global:QuirkyPreferences.Get_Item("AzureSubscription")
             }
 
@@ -54,7 +54,7 @@ process {
             $vm = Get-AzureRmVM -ResourceGroupName $resourcegroup -Name $vmname -Status
         }
 
-        if ($vm -eq $null) { throw "Can't get Azure VM $vmname in $resourcegroup for subscription $SubscriptionName " }
+        if ($null -eq $vm) { throw "Can't get Azure VM $vmname in $resourcegroup for subscription $SubscriptionName " }
 
 
         $currentTitle = $host.UI.RawUI.WindowTitle
@@ -65,9 +65,9 @@ process {
 
 
         $status = $vm | `
-            select -ExpandProperty Statuses | `
+            Select-Object -ExpandProperty Statuses | `
             Where-Object { $_.Code -match "PowerState" } | `
-            select -ExpandProperty displaystatus
+            Select-Object -ExpandProperty displaystatus
 
         Write-Output "Current VM Status is $status"
         if ($status -ne "VM running") {
@@ -94,9 +94,9 @@ process {
         $vm = Get-AzureRmVM -ResourceGroupName $resourcegroup -Name $vmname -Status -ErrorAction Stop
 
         $status = $vm | `
-            select -ExpandProperty Statuses | `
+            Select-Object -ExpandProperty Statuses | `
             Where-Object { $_.Code -match "PowerState" } | `
-            select -ExpandProperty displaystatus
+            Select-Object -ExpandProperty displaystatus
 
         [hashtable]$returnValues = @{}
         $returnValues.IpAddress = $ipAddress
