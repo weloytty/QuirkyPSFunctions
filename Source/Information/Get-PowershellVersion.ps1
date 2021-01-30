@@ -43,6 +43,9 @@ process {
     foreach ($server in $ComputerName) {
         Write-Verbose "Processing $server"
         $retVal = $null
+
+if($Env:ComputerName -eq $server){$server = 'localhost'}
+
         Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun -EnableNetworkAccess -OutVariable retVal
         $rv += $retVal
     }

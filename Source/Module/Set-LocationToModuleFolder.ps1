@@ -17,7 +17,7 @@ process {
     Write-Verbose "Path to set is originally $pathToSet"
     Write-Verbose "Looking for $ModuleName"
 
-    if ($ModuleName.Length -gt 0) {
+    if ($null -ne $ModuleName -and $ModuleName.Length -gt 0) {
         Write-Verbose "Invoking Get-Module -Name $ModuleName -ErrorAction SilentlyContinue"
         $thisModule = $(Get-Module -Name "$ModuleName" -ErrorAction SilentlyContinue)
         if ($null -ne $thisModule) {

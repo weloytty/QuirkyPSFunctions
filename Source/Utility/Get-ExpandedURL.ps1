@@ -9,6 +9,11 @@ begin {
     Add-Type -AssemblyName System.Web
 }
 process {
+
+throw "I have to set this back up, so it doesn't work right now."
+
+
+
     foreach ($inputURL in $InputURLs) {
         $escapedURL = [System.Web.HttpUtility]::UrlEncode($inputURL)
         $a = (Invoke-RestMethod https://lengthenurl.info/api/longurl/shorturl/?inputURL=$escapedURL)
