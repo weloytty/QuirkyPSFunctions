@@ -84,9 +84,10 @@ begin {
 
 process {
 
-    foreach ($Computer in $ComputerName) {
-        if (Test-Port -ComputerName $computer -Quiet -Port 3389) {
-            if ($computer -eq $env:ComputerName) {
+    foreach ($computer in $ComputerName) {
+        if (Test-Port -ComputerName $computer -Quiet -Port 80) {
+            if ($computer.ToUpper() -eq $($env:ComputerName).ToUpper()) {
+                Write-Verbose "Running command locally on $computer"
                 Invoke-Command -ScriptBlock $SB  -ArgumentList $VerbosePreference, $Quiet, $DisplayOnly
             } else {
                 Invoke-Command -ComputerName $computer -ScriptBlock $SB  -ArgumentList $VerbosePreference, $Quiet, $DisplayOnly
