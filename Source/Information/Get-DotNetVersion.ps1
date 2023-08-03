@@ -30,28 +30,32 @@ begin {
         Write-Verbose "Value of Release is $($release)"
 
         switch ($release.Release) {
-            378389 {$versionName = ".NET Framework 4.5"}
-            378675 {$versionName = ".NET Framework 4.5.1 installed with Windows 8.1 or Windows Server 2012 R2"}
-            378758 {$versionName = ".NET Framework 4.5.1 installed on Windows 8, Windows 7 SP1, or Windows Vista SP2"}
-            379893 {$versionName = ".NET Framework 4.5.2"}
-            393295 {$versionName = ".NET Framework 4.6"}
-            393297 {$versionName = ".NET Framework 4.6"}
-            394254 {$versionName = ".NET Framework 4.6.1"}
-            394271 {$versionName = ".NET Framework 4.6.1"}
-            394747 {$versionName = ".NET Framework 4.6.2 Preview"}
-            394748 {$versionName = ".NET Framework 4.6.2 Preview"}
-            394802 {$versionName = ".NET Framework 4.6.2"}
-            394806 {$versionName = ".NET Framework 4.6.2"}
-            460798 {$versionName = ".NET Framework 4.7"}
-            460805 {$versionName = ".NET Framework 4.7"}
-            461310 {$versionName = ".NET Framework 4.7.1"}
-            461308 {$versionName = '.NET Framework 4.7.1'}
-            461310 {$versionName = ".NET Framework 4.7.2"}
-            461814 {$versionName = ".NET Framework 4.7.2"}
-            461808 {$versionName = ".NET Framework 4.7.2"}
-            528049 {$versionName = ".NET Framework 4.8"}
-            528040 {$versionName = ".NET Framework 4.8"}
-            default {$versionName = $clrVersion.Version}
+            378389 { $versionName = ".NET Framework 4.5" }
+            378675 { $versionName = ".NET Framework 4.5.1 installed with Windows 8.1 or Windows Server 2012 R2" }
+            378758 { $versionName = ".NET Framework 4.5.1 installed on Windows 8, Windows 7 SP1, or Windows Vista SP2" }
+            379893 { $versionName = ".NET Framework 4.5.2" }
+            393295 { $versionName = ".NET Framework 4.6" }
+            393297 { $versionName = ".NET Framework 4.6" }
+            394254 { $versionName = ".NET Framework 4.6.1" }
+            394271 { $versionName = ".NET Framework 4.6.1" }
+            394747 { $versionName = ".NET Framework 4.6.2 Preview" }
+            394748 { $versionName = ".NET Framework 4.6.2 Preview" }
+            394802 { $versionName = ".NET Framework 4.6.2" }
+            394806 { $versionName = ".NET Framework 4.6.2" }
+            460798 { $versionName = ".NET Framework 4.7" }
+            460805 { $versionName = ".NET Framework 4.7" }
+            461310 { $versionName = ".NET Framework 4.7.1" }
+            461308 { $versionName = '.NET Framework 4.7.1' }
+            461310 { $versionName = ".NET Framework 4.7.2" }
+            461814 { $versionName = ".NET Framework 4.7.2" }
+            461808 { $versionName = ".NET Framework 4.7.2" }
+            528049 { $versionName = ".NET Framework 4.8" }
+            528040 { $versionName = ".NET Framework 4.8" }
+            528372 { $versionName = ".NET Framework 4.8" }
+            528449 { $versionName = ".NET Framework 4.8" }
+            533320 { $versionName = ".NET Framework 4.8.1" }
+            533325 { $versionName = ".NET Framework 4.8.1" }
+            default { $versionName = $clrVersion.Version }
         }
 
         $paddedName = $($Env:COMPUTERNAME).padRight(15)
