@@ -8,7 +8,7 @@ begin {
     Set-StrictMode -Version Latest
     Write-Verbose "ProcessID=$ProcessID"
     Write-Verbose "ProcessID=$ProcessName"
-    if ($processId -ne 0 -and $null -ne $ProcessName ) {throw "Ambiguous Arguments:  You can't ask for both a PID and processname"}
+    if ($processId -ne 0 -and $null -ne $ProcessName ) { throw "Ambiguous Arguments:  You can't ask for both a PID and processname" }
 
 }
 process {
@@ -20,7 +20,7 @@ process {
     }
     #break this out into a function, but I have shit to do!
     if ($processID -gt 0) {
-        $pInfo = $(Get-CimInstance Win32_Process|Where-Object processid -eq $processID)
+        $pInfo = $(Get-CimInstance Win32_Process | Where-Object processid -EQ $processID)
 
     }
     if ($null -ne $ProcessName ) {

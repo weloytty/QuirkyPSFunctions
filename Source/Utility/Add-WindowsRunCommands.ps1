@@ -2,7 +2,7 @@
 param([switch]$Force)
 
 begin {
-    Set-StrictMode -vErsion Latest
+    Set-StrictMode -Version Latest
 }
 process {
     $currError = $error
@@ -20,11 +20,11 @@ process {
    
         if ($null -eq ($RegPath.PSObject.Properties.name -match "'(Default)'")) {
             Write-Verbose "No default for $Name"
-        }else{
+        } else {
             Write-Verbose "Getting .'(Default)'"
-            try{
-            $Path = $($RegPath).'(Default)'    
-            }catch{
+            try {
+                $Path = $($RegPath).'(Default)'    
+            } catch {
                 Write-Verbose "Swallowing Exception for $Name"
                 Write-Verbose "$RegPath"
             }
@@ -43,8 +43,8 @@ process {
         }
         Write-Verbose "Name: '$Name' Value: '$Path'"
         if ($Path -ne $null -and $Path.Length -gt 1) {
-            if (-not $existingAlias) {Set-Alias -Name "$Name" -Value "$Path"}else {Write-Verbose "Skipping existing alias $Name"}
-        } else {Write-Verbose "Skipping $Name, blank value"}
+            if (-not $existingAlias) { Set-Alias -Name "$Name" -Value "$Path" }else { Write-Verbose "Skipping existing alias $Name" }
+        } else { Write-Verbose "Skipping $Name, blank value" }
         
 
        

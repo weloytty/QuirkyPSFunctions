@@ -20,17 +20,17 @@ Invoke-Command -ComputerName $computerName -Script {
   param([string] $username)
   $tempPath = [System.IO.Path]::GetTempPath()
   $import = Join-Path -Path $tempPath -ChildPath "import.inf"
-  if(Test-Path $import) { Remove-Item -Path $import -Force }
+  if (Test-Path $import) { Remove-Item -Path $import -Force }
   $export = Join-Path -Path $tempPath -ChildPath "export.inf"
-  if(Test-Path $export) { Remove-Item -Path $export -Force }
+  if (Test-Path $export) { Remove-Item -Path $export -Force }
   $secedt = Join-Path -Path $tempPath -ChildPath "secedt.sdb"
-  if(Test-Path $secedt) { Remove-Item -Path $secedt -Force }
+  if (Test-Path $secedt) { Remove-Item -Path $secedt -Force }
   try {
     Write-Host ("Granting SeServiceLogonRight to user account: {0} on host: {1}." -f $username, $computerName)
     $sid = ((New-Object System.Security.Principal.NTAccount($username)).Translate([System.Security.Principal.SecurityIdentifier])).Value
     secedit /export /cfg $export
     $sids = (Select-String $export -Pattern "SeServiceLogonRight").Line
-    foreach ($line in @("[Unicode]", "Unicode=yes", "[System Access]", "[Event Audit]", "[Registry Values]", "[Version]", "signature=`"`$CHICAGO$`"", "Revision=1", "[Profile Description]", "Description=GrantLogOnAsAService security template", "[Privilege Rights]", "$sids,*$sid")){
+    foreach ($line in @("[Unicode]", "Unicode=yes", "[System Access]", "[Event Audit]", "[Registry Values]", "[Version]", "signature=`"`$CHICAGO$`"", "Revision=1", "[Profile Description]", "Description=GrantLogOnAsAService security template", "[Privilege Rights]", "$sids,*$sid")) {
       Add-Content $import $line
     }
     secedit /import /db $secedt /cfg $import

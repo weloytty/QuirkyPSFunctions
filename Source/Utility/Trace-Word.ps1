@@ -46,8 +46,8 @@ Process {
         $TotalLength = 0
                
         $_.split() | `
-            Where-Object {-not [string]::IsNullOrWhiteSpace($_)} | ` #Filter-out whiteSpaces
-            ForEach-Object {
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | ` #Filter-out whiteSpaces
+        ForEach-Object {
             if ($TotalLength -lt ($Host.ui.RawUI.BufferSize.Width - 10)) {
                 #"TotalLength : $TotalLength"
                 $Token = $_

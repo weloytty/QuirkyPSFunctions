@@ -37,8 +37,8 @@ process {
 
 
         $o = New-Object System.Object
-        $o | Add-Member -type NoteProperty -name File -value $assembly
-        $o | Add-Member -type NoteProperty -name PEKind -value $peKinds
+        $o | Add-Member -type NoteProperty -Name File -Value $assembly
+        $o | Add-Member -type NoteProperty -Name PEKind -Value $peKinds
         Write-Output $o
     }
 }

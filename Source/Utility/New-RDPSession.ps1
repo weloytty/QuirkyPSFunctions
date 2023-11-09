@@ -11,7 +11,7 @@ param(
 
 )
 begin {
-    Set-StrictMode -version Latest
+    Set-StrictMode -Version Latest
     $hostName = $ComputerName
     if ($Computername.ToUpper() -eq "CLIP") { $hostName = $(Get-Clipboard) }
 }
@@ -25,9 +25,9 @@ process {
     }
     $fullRDPPath = ''
     if ($RDPFile -ne '') {
-        if (-not (Test-Path $rdpFile)) {throw "Can't find rdp file $rdpFile"}
+        if (-not (Test-Path $rdpFile)) { throw "Can't find rdp file $rdpFile" }
         $SkipTestConnection = $true
-        $fullRDPPath = Get-Item $RDPFile|Select-Object -ExpandProperty FullName
+        $fullRDPPath = Get-Item $RDPFile | Select-Object -ExpandProperty FullName
     }
 
     if ($SkipTestConnection -eq $false) {
@@ -45,7 +45,7 @@ process {
         
                 Write-Verbose $output
                 $hostname = $address.IPaddressToString
-                if (-not $isIP4) {$skipTestConnection = $true}
+                if (-not $isIP4) { $skipTestConnection = $true }
                 $octets = $hostname.Split(".")
         
                 $publicIP = $octets[0] -ne 10
@@ -79,7 +79,7 @@ process {
     if ($fullRDPPath -ne '') {
         mstsc $fullRDPPath
     } else {
-        if ($SkipTestConnection -or (Test-Port -Computername $hostname -Quiet -Port $Port)) {
+        if ($SkipTestConnection -or (Test-Port -ComputerName $hostname -Quiet -Port $Port)) {
             Write-Verbose "Invoking mstsc"
             $PortParameter = ":$Port"
             mstsc /v:$hostName$PortParameter

@@ -20,7 +20,7 @@ process {
     foreach ($computer in $ComputerName) {
         if (Test-Port -Quiet -ComputerName $computer -Port 3389) {
             #$operatingSystem = Get-WmiObject Win32_OperatingSystem -ComputerName $computer;
-            $operatingSystem = Get-CIMInstance -ClassName Win32_OperatingSystem -ComputerName $computer;
+            $operatingSystem = Get-CimInstance -ClassName Win32_OperatingSystem -ComputerName $computer;
             #"$((Get-Date) - ([Management.ManagementDateTimeConverter]::ToDateTime($operatingSystem.LastBootUpTime)))";
 
 

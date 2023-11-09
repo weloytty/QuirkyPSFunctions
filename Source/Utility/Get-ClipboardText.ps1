@@ -34,7 +34,7 @@ if ($PSVersionTable.PSEdition -eq 'Desktop') {
         #   (New-Object -ComObject htmlfile).parentWindow.clipboardData.getData('text')
         # because .parentWindow is always $null
         $tempFile = [io.path]::GetTempFileName()
-        "WSH.Echo(WSH.CreateObject('htmlfile').parentWindow.clipboardData.getData('text'));" | set-content $tempFile
+        "WSH.Echo(WSH.CreateObject('htmlfile').parentWindow.clipboardData.getData('text'));" | Set-Content $tempFile
         cscript /nologo /e:JScript $tempFile
         Remove-Item $tempFile
     } elseif ((uname) -eq 'Darwin') {

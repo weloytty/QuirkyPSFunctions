@@ -10,9 +10,6 @@ param(
 begin {
     Set-StrictMode -Version Latest
 
-
-
-
     $returnValues = @()
 
 
@@ -39,17 +36,13 @@ process {
                     $resSize = $results.Size
                     $resFree = $results.FreeSpace
 
-
-                    if ($null -eq $results.Size) {$resSize = 0}
-                    if ($null -eq $results.FreeSpace) {$resFree = 0}
+                    if ($null -eq $results.Size) { $resSize = 0 }
+                    if ($null -eq $results.FreeSpace) { $resFree = 0 }
                     $percentFree = 0
-
-
 
                     if (  $resSize -ne 0) {
                         $percentFree = [int](100 - (((($resSize) - ($resFree)) / ($resSize) * 100)))
                     }
-
 
                     if (-not $DisplayOnly) {
                         $thisValue = $(New-Object -Type PSObject -Property @{ ComputerName = $Computer; Disk = $($results.DeviceId); Size = $($results.Size); FreeSpace = $($results.FreeSpace); PercentFree = $percentFree })
@@ -57,17 +50,15 @@ process {
                     }
                     if (-not $Quiet) {
 
-
-
                         if ($results.Size -gt 0 -or $IncludeZeros) {
                             $compDisplay = "$($Computer.ToUpper().PadRight(15))    "
                             $foreColor = 'Green'
-                            if ($percentFree -lt 10) {$foreColor = 'Red'}
+                            if ($percentFree -lt 10) { $foreColor = 'Red' }
 
                             $outputStringFreeSpace = "Free: $($(Format-DiskSize -Size $results.FreeSpace).padRight(10))"
                             $outputStringSize = "Size: $($(Format-DiskSize -Size $results.Size).padRight(10))"
                             $driveName = $($results.Name)
-                            Write-Host "$compDisplay $driveName $outputStringSize$outputStringFreeSpace% Free: " -NoNewLine
+                            Write-Host "$compDisplay $driveName $outputStringSize$outputStringFreeSpace% Free: " -NoNewline
                             Write-Host "$percentFree" -ForegroundColor $foreColor
                         }
                     }
@@ -80,6 +71,6 @@ process {
 }
 
 end {
-    if ($DisplayOnly) {$returnValues = $null}
+    if ($DisplayOnly) { $returnValues = $null }
     $returnValues
 }

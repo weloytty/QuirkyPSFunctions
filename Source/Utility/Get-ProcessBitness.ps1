@@ -16,16 +16,15 @@ begin {
             [Out, MarshalAs(UnmanagedType.Bool)] out bool wow64Process);
 '@ -Name NativeMethods -Namespace Kernel32
 
-        Get-Process -Name $ProcessName | Foreach-Object {
+        Get-Process -Name $ProcessName | ForEach-Object {
             $is32Bit = [int]0 
             if ([Kernel32.NativeMethods]::IsWow64Process($_.Handle, [ref]$is32Bit)) { 
                 "$($_.Name) $($_.Id) is $(if ($is32Bit) {'32-bit'} else {'64-bit'})" 
-            } else {"IsWow64Process call failed"}
+            } else { "IsWow64Process call failed" }
         }
     }
 
-
-    if ($null -eq $ComputerName) {$ComputerName = @('.')}
+    if ($null -eq $ComputerName) { $ComputerName = @('.') }
 
 }
 
@@ -36,11 +35,12 @@ process {
     foreach ($c in $ComputerName) {
 
         if ($c -eq '.') {
-            invoke-command -scriptblock $sb    
+            Invoke-Command -ScriptBlock $sb    
         } else {
-            if (Test-Port -Port 3389 -ComputerName $s) {
-                invoke-command -computername $c -scriptblock $sb
-            } else {Write-Output "Can't connect to $c"}
+            #changed 3389 to 5985, because 5985 is WinRM
+            if (Test-Port -Port 5985 -ComputerName $s) {
+                Invoke-Command -ComputerName $c -ScriptBlock $sb
+            } else { Write-Output "Can't connect to $c" }
         }
 
         

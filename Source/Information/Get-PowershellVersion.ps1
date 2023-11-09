@@ -44,13 +44,13 @@ process {
         Write-Verbose "Processing $server"
         $retVal = $null
 
-if($Env:ComputerName -eq $server){$server = 'localhost'}
+        if ($Env:ComputerName -eq $server) { $server = 'localhost' }
 
         Invoke-Command -ComputerName $server -ScriptBlock $ScriptToRun -EnableNetworkAccess -OutVariable retVal
         $rv += $retVal
     }
 }
 end {
-    if($DisplayOnly){$rv=$null}
+    if ($DisplayOnly) { $rv = $null }
     $rv
 }
