@@ -12,7 +12,7 @@
 RootModule = 'Quirky.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2.0.201'
+ModuleVersion = '1.2.0.202'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
