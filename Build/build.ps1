@@ -14,9 +14,9 @@ param(
 Set-StrictMode -Version Latest
 
 
-$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")
+#$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")
 
-if(-not $isAdmin){throw "You must run as admin. (Because it copies to $($env:ProgramFiles)"}
+#if(-not $isAdmin){throw "You must run as admin. (Because it copies to $($env:ProgramFiles)"}
 
 
 $thisPath = $(Split-Path $MyInvocation.MyCommand.Source -Parent)

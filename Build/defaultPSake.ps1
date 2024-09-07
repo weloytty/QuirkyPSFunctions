@@ -45,7 +45,7 @@ Properties {
     $m_outputPath = Join-Path $(Split-Path $m_buildParent -Parent) "Output"
     $m_Tests = Join-Path $(Split-Path $m_buildParent -Parent) "Tests"
 
-    $script:m_ModuleVersion = "1.2.0.0"
+    $script:m_ModuleVersion = "2.0.0.0"
    
 
     $m_PersonalFunctions = "PersonalFunctions"
@@ -88,11 +88,13 @@ Task Clean -depends TestProperties -Description "Cleans out the destination modu
         $toDelete = Get-ChildItem $m_outputPath
         foreach ($deleteFolder in $toDelete) {
             Write-Verbose "Remove-Item $($deleteFolder.FullName) -recurse -force"
+            throw "no deleting!"
             remove-item $($deleteFolder.FullName) -recurse -force
             Assert (-not (Test-Path $($deleteFolder.FullName) -PathType Container)) -failureMessage "$m_outputPath not deleted"
         }
 
-    } else {
+    }
+    else {
         Write-Verbose "$m_outputPath not available"
     }
     Write-Host "Task Clean Succeeded"
@@ -142,18 +144,28 @@ Task -Name DeployModule -depends TestProperties -Description "Deploys the files"
     Write-Output "Deploy $m_outputPath"
     Write-output "Version $m_Moduleversion"
 
-    
-    
-    $modPath = $(Join-Path "$($env:programfiles)" "PowerShell\Modules\Quirky")
-    if ($PSVersionTable.PSVersion.Major -lt 6) {
-        $modPath = $(Join-Path "$($env:programfiles)" "WindowsPowerShell\Modules\Quirky")
+    if ($IsWindows) {
+        # Windows-specific code
+        $userModulePath = $env:PSModulePath -split ';' | Where-Object { $_ -like "*$($env:USERPROFILE)*" }
     }
-    $versionPath = $(Join-Path "$modPath" "$script:m_moduleVersion")
-    if (Test-Path -Path $versionPath) {Remove-Item $versionPath -Recurse -force }
+    else {
+        # Linux or other *nix specific code
+        $userModulePath = $env:PSModulePath -split ':' | Where-Object { $_ -like "*$($env:HOME)*"}
+    }
+    $userModulePath = $userModulePath[0]
+    $whatOS = $IsWindows ? "Windows" : "Linux"
+
+    Write-Output "User-specific PowerShell modules on {$whatOS}: $userModulePath"
+    
+    $modPath = $(Join-Path $userModulePath "Quirky")
+    Write-Output "Modpath is '$modPath'"
+    
+    $versionPath = $(Join-Path "$modPath" "$script:m_moduleVersion").Trim()
+    if (Test-Path -Path $versionPath) { Remove-Item $versionPath -Recurse -force }
     Write-Output "Copying $psdPath to $versionPath"
     Copy-Item $psdPath -Destination $versionPath -Recurse
 
-
+    
 }
 
 
@@ -182,13 +194,13 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
     $script:m_ModuleVersion = $currentVersion.ToString()
     if (Test-Path $psdFile -PathType Leaf) {
         Write-Host "Updating version from $(Split-Path $psdFile -Parent)"
-        $newCurrentVersion = Test-ModuleManifest -Path $psdFile|Select -ExpandProperty Version
+        $newCurrentVersion = Test-ModuleManifest -Path $psdFile | Select -ExpandProperty Version
         $script:m_ModuleVersion = $newCurrentVersion
     }
 
     Write-Host "Loading $m_ModuleName"
 
-    $modulePath = Get-Module Quirky|Select-Object ModuleBase # Join-Path "$($Env:ProgramFiles)\WindowsPowerShell\Modules" "Quirky"
+    $modulePath = Get-Module Quirky | Select-Object ModuleBase # Join-Path "$($Env:ProgramFiles)\WindowsPowerShell\Modules" "Quirky"
 
 
 
@@ -235,14 +247,14 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
 
     if (-not (Test-Path $m_outputPath )) {
         Write-Verbose "Creating $m_outputPath"
-        New-Item -Path $m_outputPath -ItemType Container -Force|Out-Null
+        New-Item -Path $m_outputPath -ItemType Container -Force | Out-Null
     }
 
 
     Assert ($(Test-ModuleManifest -Path $psdFile -ErrorAction SilentlyContinue; $?)) -failureMessage "$psdFile does not validate"
 
     Copy-Item $psdFile -Destination $m_OutputPath
-    $buildFolders = get-childitem $m_sourcePath|Where-Object {$_.PSIsContainer}
+    $buildFolders = get-childitem $m_sourcePath | Where-Object { $_.PSIsContainer }
 
 
     Copy-Item $psdFile -Destination $m_OutputPath
@@ -250,7 +262,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
     Copy-Item $prefsFile -Destination $m_OutputPath
 
 
-    $buildFolders = get-childitem $m_sourcePath|Where-Object {$_.PSIsContainer}
+    $buildFolders = get-childitem $m_sourcePath | Where-Object { $_.PSIsContainer }
     $exportedFunctions = @()
 
     foreach ($folder in $buildFolders) {
@@ -259,7 +271,7 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
         Write-Verbose "Test-Path -Path '$m_outputPath\$($folder.Name)' -PathType Container"
         if (-not (Test-Path -Path "$m_outputPath\$($folder.Name)" -PathType Container)) {
             Write-Verbose "Creating $m_outputPath\$($folder.Name)"
-            New-Item -path "$m_outputPath\$($folder.Name)" -ItemType Container |Out-Null
+            New-Item -path "$m_outputPath\$($folder.Name)" -ItemType Container | Out-Null
 
         }
 
@@ -278,13 +290,13 @@ Task -Name BuildModule -depends TestProperties -Description "Deploys the files" 
             
         }
 
-        $FilterList = Get-ChildItem $($folder.FullName) |Where-Object {$_.Name -match 'Filter'}
+        $FilterList = Get-ChildItem $($folder.FullName) | Where-Object { $_.Name -match 'Filter' }
         foreach ($filterFile in $filterList) {
             Write-Verbose "Processing Filter $filterFile.Fullname)"
             Add-Content $thisPSM -Value $(Get-Content $($filterFile.Fullname)) 
         }
 
-        $aliasList = Get-ChildItem $($folder.FullName) |Where-Object {$_.Name -match 'Alias'}
+        $aliasList = Get-ChildItem $($folder.FullName) | Where-Object { $_.Name -match 'Alias' }
         foreach ($aliasFile in $aliasList) {
             Write-Verbose "Processing Alias $aliasFile.Fullname)"
             Add-Content $thisPSM -Value $(Get-Content $($aliasFile.Fullname)) 
