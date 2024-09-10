@@ -6,6 +6,11 @@ param(
     [switch]$DisplayOnly,
     [switch]$Quiet)
 begin {
+
+  
+   # Reg keys are documented here: https://learn.microsoft.com/en-us/mem/configmgr/core/servers/deploy/install/list-of-prerequisite-checks#pending-system-restart
+
+
     $SB = {param(
             $Verbose,
             $Quiet,
