@@ -7,6 +7,7 @@ param([string[]]$ComputerName,
 
 begin {
 	Set-StrictMode -Version Latest
+	if(-not $IsWindows) { throw 'Unsupported platform'}
 }
 process {
 

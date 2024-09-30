@@ -7,7 +7,7 @@ param(
     [switch]$Details
 )
 $a = Get-Command $CommandToFind -ErrorAction SilentlyContinue
-if ($a -ne $null) {
+if ($null -ne $a) {
     $article = 'a'
     if ($a.CommandType -eq 'Alias' -or $a.CommandType -eq 'Application') { $article = 'an' }
     Write-Verbose "$CommandToFind is $article $($a.CommandType)"
@@ -19,7 +19,7 @@ if ($a -ne $null) {
         "Alias" {
             $def = $a | Select-Object -ExpandProperty Definition
             Write-Verbose "$CommandToFind is an alias for $def"
-            if ($def -ne $null) {
+            if ($null -ne $def) {
                 $output = Get-CommandSource -CommandToFind $def -Details:$Details
             }
 

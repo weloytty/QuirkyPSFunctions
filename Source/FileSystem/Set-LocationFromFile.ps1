@@ -13,7 +13,8 @@ if (Test-Path -Path $FileOrFolderName -PathType Container) {
     Set-Location -Path $FileOrFolderName
   }
 
-} elseif (Test-Path -Path $FileOrFolderName -PathType Leaf) {
+}
+elseif (Test-Path -Path $FileOrFolderName -PathType Leaf) {
 
   $didAnything = $true;
   $location = $(Split-Path -Path $FileOrFolderName -Parent)
