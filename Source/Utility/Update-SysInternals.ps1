@@ -10,6 +10,9 @@ param([string]$DownloadLocation = $env:temp,
 
 Set-StrictMode -Version Latest
 
+throw "Don't use this unless you want a teams message from ITSecurity"
+
+
 if ($ExtractLocation -eq '') {
     Write-Verbose "Sysinternals Directory will be $($Global:QuirkyPreferences.Get_Item("SysinternalsDir"))"
     $extractLocation = $Global:QuirkyPreferences.Get_Item("SysinternalsDir")
